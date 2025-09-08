@@ -30,7 +30,7 @@ jobs:
         working-directory: ${{ env.FLUTTER_WORKING_DIR }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           # Fetch full history for commit message validation
           fetch-depth: 0
@@ -155,7 +155,7 @@ jobs:
     if: github.event_name == 'pull_request' || github.event_name == 'push'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0  # Full history for comprehensive scanning
 
@@ -193,7 +193,7 @@ jobs:
         working-directory: ${{ env.FLUTTER_WORKING_DIR }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -296,7 +296,7 @@ jobs:
         working-directory: ${{ env.FLUTTER_WORKING_DIR }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -360,7 +360,7 @@ jobs:
       ))
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Download Web Artifact
         uses: actions/download-artifact@v4
