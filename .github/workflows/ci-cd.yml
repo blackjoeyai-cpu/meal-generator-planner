@@ -296,7 +296,7 @@ jobs:
 
       - name: Build Web
         run: |
-          flutter build web --release --web-renderer canvaskit
+          flutter build web --release
           # Ensure proper asset handling for offline-first architecture
           ls -la build/web/
 
