@@ -1,0 +1,38 @@
+---
+name: Feature Request
+about: Suggest an idea for the Meal Generator Planner
+title: '[FEATURE] '
+labels: ['enhancement']
+assignees: ''
+---
+
+## Feature Description
+A clear and concise description of what the feature is and what problem it solves.
+
+## Use Case
+Describe the use case or scenario where this feature would be helpful.
+
+## Proposed Solution
+A clear and concise description of what you want to happen.
+
+## Alternative Solutions
+A clear and concise description of any alternative solutions or features you've considered.
+
+## Mockups/Wireframes
+If applicable, add mockups, wireframes, or sketches to help explain your feature request.
+
+## Priority
+- [ ] Low - Nice to have
+- [ ] Medium - Would be helpful
+- [ ] High - Important for user experience
+- [ ] Critical - Blocking or essential
+
+## Platform Impact
+Which platforms would this feature affect?
+- [ ] Android
+- [ ] iOS  
+- [ ] Web
+- [ ] All platforms
+
+## Additional Context
+Add any other context, links, or screenshots about the feature request here.
