@@ -1,0 +1,26 @@
+[
+  {
+    "id": "breakfast",
+    "name": "Breakfast",
+    "color": "#FF6B35",
+    "icon": "🍳"
+  },
+  {
+    "id": "lunch", 
+    "name": "Lunch",
+    "color": "#4ECDC4",
+    "icon": "🥗"
+  },
+  {
+    "id": "dinner",
+    "name": "Dinner", 
+    "color": "#45B7D1",
+    "icon": "🍽️"
+  },
+  {
+    "id": "snacks",
+    "name": "Snacks",
+    "color": "#FFA726",
+    "icon": "🍎"
+  }
+]

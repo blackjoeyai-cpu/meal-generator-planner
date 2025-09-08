@@ -39,7 +39,9 @@ class MealCard extends StatelessWidget {
                   if (showFavoriteButton)
                     IconButton(
                       icon: Icon(
-                        meal.isFavorite ? Icons.favorite : Icons.favorite_border,
+                        meal.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
                         color: meal.isFavorite ? Colors.red : null,
                       ),
                       onPressed: onFavoriteToggle,

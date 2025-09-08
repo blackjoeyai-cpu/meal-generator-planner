@@ -22,7 +22,10 @@ abstract class ShoppingListRepository {
   Future<void> addItemToShoppingList(String shoppingListId, ShoppingItem item);
 
   /// Update item in shopping list
-  Future<void> updateItemInShoppingList(String shoppingListId, ShoppingItem item);
+  Future<void> updateItemInShoppingList(
+    String shoppingListId,
+    ShoppingItem item,
+  );
 
   /// Remove item from shopping list
   Future<void> removeItemFromShoppingList(String shoppingListId, String itemId);

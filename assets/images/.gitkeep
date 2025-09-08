@@ -1,0 +1,20 @@
+# Images Directory
+
+This directory contains image assets for the Meal Generator Planner application.
+
+## Structure
+- `meal_placeholder.png` - Placeholder image for meals without photos
+- `app_icon/` - Application icon variants
+- `backgrounds/` - Background images for screens
+- `icons/` - Custom icon assets
+
+## Usage
+Images are referenced in Flutter using:
+```dart
+Image.asset('assets/images/meal_placeholder.png')
+```
+
+## Optimization
+- Use WebP format for better compression
+- Provide multiple resolutions (1x, 2x, 3x)
+- Compress images before adding to reduce app size

@@ -1,0 +1,23 @@
+# Data Directory
+
+This directory contains data assets for the Meal Generator Planner application.
+
+## Structure
+- `meals.json` - Default meal data for the application
+- `categories.json` - Food categories and classifications
+- `ingredients.json` - Common ingredients database
+- `sample_data/` - Sample data for testing and development
+
+## Usage
+Data files are loaded using:
+```dart
+import 'package:flutter/services.dart';
+
+final String data = await rootBundle.loadString('assets/data/meals.json');
+```
+
+## Format
+All data files should be in JSON format with proper structure according to the data models defined in `/lib/data/models/`.
+
+## Offline-First Design
+These data files support the offline-first architecture by providing local data when no internet connection is available.

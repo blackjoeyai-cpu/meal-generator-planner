@@ -1,0 +1,46 @@
+# GitGuardian configuration for Meal Generator Planner
+# This file configures GitGuardian scanning behavior and policies
+
+version: 2
+
+# Paths to exclude from scanning
+paths-ignore:
+  - "**/*.lock"
+  - "**/node_modules/**"
+  - "**/.pub-cache/**"
+  - "**/build/**"
+  - "**/.dart_tool/**"
+  - "**/coverage/**"
+  - "**/.github/**"
+  - "**/docs/**"
+  - "**/*.md"
+
+# File patterns to ignore
+paths-ignore-patterns:
+  - "*.g.dart"  # Generated files
+  - "*.freezed.dart"  # Freezed generated files
+  - "*.mocks.dart"  # Mock generated files
+
+# Secret detection configuration
+secret-scan-preference: all
+
+# Allow list for specific secrets (if needed)
+# matches-ignore:
+#   - name: "Flutter Test API Key"
+#     match: "test_api_key_12345"
+#     comment: "This is a test API key used only for development"
+
+# Policies to enforce
+policies:
+  - policy_name: "secrets_detection"
+    enabled: true
+  - policy_name: "sensitive_files"
+    enabled: true
+  - policy_name: "infrastructure_as_code"
+    enabled: true
+
+# Exit codes configuration
+exit-zero: false  # Fail the workflow if secrets are found
+
+# Verbose output for debugging
+verbose: true

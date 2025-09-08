@@ -20,8 +20,9 @@ void main() {
       expect(find.byType(ElevatedButton), findsOneWidget);
     });
 
-    testWidgets('should show loading indicator when isLoading is true',
-        (WidgetTester tester) async {
+    testWidgets('should show loading indicator when isLoading is true', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -38,8 +39,9 @@ void main() {
       expect(find.text('Test Button'), findsNothing);
     });
 
-    testWidgets('should be disabled when isEnabled is false',
-        (WidgetTester tester) async {
+    testWidgets('should be disabled when isEnabled is false', (
+      WidgetTester tester,
+    ) async {
       bool wasPressed = false;
 
       await tester.pumpWidget(
@@ -60,8 +62,9 @@ void main() {
       expect(wasPressed, false);
     });
 
-    testWidgets('should call onPressed when tapped and enabled',
-        (WidgetTester tester) async {
+    testWidgets('should call onPressed when tapped and enabled', (
+      WidgetTester tester,
+    ) async {
       bool wasPressed = false;
 
       await tester.pumpWidget(
@@ -83,8 +86,9 @@ void main() {
   });
 
   group('SecondaryButton Widget Tests', () {
-    testWidgets('should render outlined button with text',
-        (WidgetTester tester) async {
+    testWidgets('should render outlined button with text', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -100,8 +104,9 @@ void main() {
       expect(find.byType(OutlinedButton), findsOneWidget);
     });
 
-    testWidgets('should call onPressed when tapped',
-        (WidgetTester tester) async {
+    testWidgets('should call onPressed when tapped', (
+      WidgetTester tester,
+    ) async {
       bool wasPressed = false;
 
       await tester.pumpWidget(

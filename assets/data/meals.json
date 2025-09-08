@@ -1,0 +1,47 @@
+[
+  {
+    "id": "meal_001",
+    "name": "Grilled Chicken Salad",
+    "ingredients": [
+      "Chicken breast",
+      "Mixed greens",
+      "Cherry tomatoes",
+      "Cucumber",
+      "Olive oil",
+      "Lemon juice"
+    ],
+    "category": "lunch",
+    "calories": 350,
+    "notes": "High protein, low carb meal perfect for lunch"
+  },
+  {
+    "id": "meal_002", 
+    "name": "Overnight Oats",
+    "ingredients": [
+      "Rolled oats",
+      "Milk",
+      "Yogurt",
+      "Berries",
+      "Honey",
+      "Chia seeds"
+    ],
+    "category": "breakfast",
+    "calories": 280,
+    "notes": "Prepare the night before for a quick breakfast"
+  },
+  {
+    "id": "meal_003",
+    "name": "Pasta Marinara",
+    "ingredients": [
+      "Pasta",
+      "Tomato sauce",
+      "Garlic",
+      "Basil",
+      "Parmesan cheese",
+      "Olive oil"
+    ],
+    "category": "dinner",
+    "calories": 420,
+    "notes": "Classic Italian comfort food"
+  }
+]

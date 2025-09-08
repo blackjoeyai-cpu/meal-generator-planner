@@ -7,18 +7,12 @@ class ShoppingListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shopping List'),
-      ),
+      appBar: AppBar(title: const Text('Shopping List')),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.shopping_cart,
-              size: 64,
-              color: Colors.orange,
-            ),
+            Icon(Icons.shopping_cart, size: 64, color: Colors.orange),
             SizedBox(height: 16),
             Text(
               'Shopping List Feature',
