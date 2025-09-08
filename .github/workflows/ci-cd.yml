@@ -410,8 +410,13 @@ jobs:
             else
               echo "- Environment: 🧪 Preview" >> $GITHUB_STEP_SUMMARY
             fi
-            echo "- Platform: 🌐 Web (Progressive Web App)" >> $GITHUB_STEP_SUMMARY
-            echo "- Features: ⚙️ Meal planning, shopping lists, offline support" >> $GITHUB_STEP_SUMMARY
+            if [ -n "${{ steps.vercel-deploy.outputs.deployment-url }}" ]; then
+              echo "- 🌐 **Live Application**: [${{ steps.vercel-deploy.outputs.deployment-url }}](${{ steps.vercel-deploy.outputs.deployment-url }})" >> $GITHUB_STEP_SUMMARY
+              echo "- 📱 **Mobile Friendly**: Access from any device" >> $GITHUB_STEP_SUMMARY
+              echo "- ⚡ **Features**: Meal planning, shopping lists, offline support" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- 🌐 **Web App**: Deployment completed - Check Vercel dashboard for URL" >> $GITHUB_STEP_SUMMARY
+            fi
           else
             echo "- Status: ❌ Deployment failed" >> $GITHUB_STEP_SUMMARY
           fi
@@ -464,11 +469,11 @@ jobs:
             else
               echo "- 🎯 **Environment**: Preview" >> $GITHUB_STEP_SUMMARY
             fi
-            echo "- 🌐 **Web App**: [Open Meal Generator Planner](https://meal-generator-planner-git-${{ github.ref_name }}-blackjoeys-projects.vercel.app)" >> $GITHUB_STEP_SUMMARY
+            echo "- 🌐 **Web App**: Check the deployment job summary above for the exact URL" >> $GITHUB_STEP_SUMMARY
+            echo "- 📦 **Alternative**: [Vercel Dashboard](https://vercel.com/dashboard) → Find latest deployment" >> $GITHUB_STEP_SUMMARY
             echo "- 📱 **Mobile Friendly**: Optimized for all devices" >> $GITHUB_STEP_SUMMARY
             echo "- ⚡ **PWA Features**: Offline support, install to home screen" >> $GITHUB_STEP_SUMMARY
             echo "- 🍽️ **Core Features**: Meal planning, shopping lists, favorites" >> $GITHUB_STEP_SUMMARY
-            echo "- 📲 **Alternative Access**: [Vercel Dashboard](https://vercel.com/dashboard)" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
           fi
           
