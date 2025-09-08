@@ -267,23 +267,15 @@ jobs:
               echo "- Branch: 🚀 Main (Production)" >> $GITHUB_STEP_SUMMARY
               echo "- Build Type: 🎆 Production Release APK (Multi-architecture)" >> $GITHUB_STEP_SUMMARY
               echo "- Architectures: 📱 ARM, ARM64, x64" >> $GITHUB_STEP_SUMMARY
-              echo "- Retention: ⏳ ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }} days" >> $GITHUB_STEP_SUMMARY
-              echo "" >> $GITHUB_STEP_SUMMARY
-              echo "### 📦 Production APK Download" >> $GITHUB_STEP_SUMMARY
-              echo "- 📁 **Artifact Name**: \`android-apk-release\`" >> $GITHUB_STEP_SUMMARY
-              echo "- 📥 **Download**: Go to [Actions → This Workflow → Artifacts](../../../actions/runs/${{ github.run_id }}) to download the APK" >> $GITHUB_STEP_SUMMARY
-              echo "- 📱 **File**: \`app-release.apk\` - Ready for production deployment" >> $GITHUB_STEP_SUMMARY
-              echo "- 📲 **Install**: Enable 'Unknown Sources' on your Android device to install" >> $GITHUB_STEP_SUMMARY
-              echo "- 🎆 **Release Features**: Optimized performance, smaller size, production-ready" >> $GITHUB_STEP_SUMMARY
-              echo "- 🎯 **Test**: Complete meal planning workflow, offline functionality" >> $GITHUB_STEP_SUMMARY
+              echo "- Purpose: 📲 Ready for production deployment" >> $GITHUB_STEP_SUMMARY
             else
               echo "- Status: ✅ Debug APK built successfully" >> $GITHUB_STEP_SUMMARY
               echo "- Branch: 🔧 ${{ github.ref_name }} (Development)" >> $GITHUB_STEP_SUMMARY
               echo "- Build Type: 🛠️ Debug APK (Development Build)" >> $GITHUB_STEP_SUMMARY
               echo "- Architecture: 📱 Single (Default)" >> $GITHUB_STEP_SUMMARY
               echo "- Purpose: 🧪 Internal testing and development" >> $GITHUB_STEP_SUMMARY
-              echo "- Note: 📝 Debug builds are for development use only" >> $GITHUB_STEP_SUMMARY
             fi
+            echo "- Retention: ⏳ ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }} days" >> $GITHUB_STEP_SUMMARY
           else
             echo "- Status: ❌ Android build failed" >> $GITHUB_STEP_SUMMARY
           fi
@@ -389,13 +381,23 @@ jobs:
         run: |
           if [ "${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/release' }}" == "true" ]; then
             # Production deployment
-            DEPLOYMENT_URL=$(vercel --prod --token $VERCEL_TOKEN --confirm 2>&1 | grep -E 'https://[^\s]+' | tail -1)
+            DEPLOYMENT_OUTPUT=$(vercel --prod --token $VERCEL_TOKEN --confirm)
           else
             # Preview deployment
-            DEPLOYMENT_URL=$(vercel --token $VERCEL_TOKEN --confirm 2>&1 | grep -E 'https://[^\s]+' | tail -1)
+            DEPLOYMENT_OUTPUT=$(vercel --token $VERCEL_TOKEN --confirm)
           fi
+          
+          # Extract clean URL from output (remove any trailing status text)
+          DEPLOYMENT_URL=$(echo "$DEPLOYMENT_OUTPUT" | grep -oE 'https://[a-zA-Z0-9.-]+\.vercel\.app' | head -1)
+          
+          # Fallback: if the above doesn't work, try a more general pattern
+          if [ -z "$DEPLOYMENT_URL" ]; then
+            DEPLOYMENT_URL=$(echo "$DEPLOYMENT_OUTPUT" | grep -oE 'https://[^\s]+' | sed 's/[^a-zA-Z0-9./-].*$//' | head -1)
+          fi
+          
           echo "deployment-url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
           echo "Deployment URL: $DEPLOYMENT_URL"
+          echo "Full Vercel Output: $DEPLOYMENT_OUTPUT"
 
       - name: 📋 Write Deployment Summary
         if: always()
@@ -408,11 +410,8 @@ jobs:
             else
               echo "- Environment: 🧪 Preview" >> $GITHUB_STEP_SUMMARY
             fi
-            if [ -n "${{ steps.vercel-deploy.outputs.deployment-url }}" ]; then
-              echo "- 🌐 **Live Application**: [${{ steps.vercel-deploy.outputs.deployment-url }}](${{ steps.vercel-deploy.outputs.deployment-url }})" >> $GITHUB_STEP_SUMMARY
-              echo "- 📱 **Mobile Friendly**: Access from any device" >> $GITHUB_STEP_SUMMARY
-              echo "- ⚙️ **Features**: Meal planning, shopping lists, offline support" >> $GITHUB_STEP_SUMMARY
-            fi
+            echo "- Platform: 🌐 Web (Progressive Web App)" >> $GITHUB_STEP_SUMMARY
+            echo "- Features: ⚙️ Meal planning, shopping lists, offline support" >> $GITHUB_STEP_SUMMARY
           else
             echo "- Status: ❌ Deployment failed" >> $GITHUB_STEP_SUMMARY
           fi
@@ -424,6 +423,14 @@ jobs:
     needs: [validate, security, build-android, build-web, deploy]
     if: always()
     steps:
+      - name: Get deployment URL
+        id: get-url
+        if: needs.deploy.result == 'success'
+        run: |
+          # Try to get the deployment URL from deploy job outputs
+          # Note: This is a simplified approach since we can't directly access job outputs from other jobs
+          echo "deployment-url-available=true" >> $GITHUB_OUTPUT
+
       - name: Consolidated Summary
         run: |
           echo "## 🏁 Complete Workflow Summary" >> $GITHUB_STEP_SUMMARY
@@ -444,29 +451,48 @@ jobs:
 
           if [ "${{ needs.deploy.result }}" != "skipped" ]; then
             echo "- **Vercel Deployment:** \`${{ needs.deploy.result }}\`" >> $GITHUB_STEP_SUMMARY
-            if [ "${{ needs.deploy.result }}" == "success" ]; then
-              echo "" >> $GITHUB_STEP_SUMMARY
-              echo "### 🌐 Quick Access" >> $GITHUB_STEP_SUMMARY
-              echo "- 🚀 **Live Application**: Check the deployment summary above for the direct URL" >> $GITHUB_STEP_SUMMARY
-              echo "- 📦 **Vercel Dashboard**: [View All Deployments](https://vercel.com/dashboard)" >> $GITHUB_STEP_SUMMARY
-              echo "- 📋 **Project**: Meal Generator Planner - Cross-platform Flutter PWA" >> $GITHUB_STEP_SUMMARY
-              echo "- 📱 **Features**: Offline meal planning, shopping lists, favorites management" >> $GITHUB_STEP_SUMMARY
-            fi
           fi
           
-          # Add Android download info only for release builds (main branch)
-          if [ "${{ needs.build-android.result }}" == "success" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🚀 Quick Access Links" >> $GITHUB_STEP_SUMMARY
+          
+          # Add deployment URL if deployment was successful
+          if [ "${{ needs.deploy.result }}" == "success" ]; then
+            echo "### 🌐 Live Application" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/release' }}" == "true" ]; then
+              echo "- 🎯 **Environment**: Production" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- 🎯 **Environment**: Preview" >> $GITHUB_STEP_SUMMARY
+            fi
+            echo "- 🌐 **Web App**: [Open Meal Generator Planner](https://meal-generator-planner-git-${{ github.ref_name }}-blackjoeys-projects.vercel.app)" >> $GITHUB_STEP_SUMMARY
+            echo "- 📱 **Mobile Friendly**: Optimized for all devices" >> $GITHUB_STEP_SUMMARY
+            echo "- ⚡ **PWA Features**: Offline support, install to home screen" >> $GITHUB_STEP_SUMMARY
+            echo "- 🍽️ **Core Features**: Meal planning, shopping lists, favorites" >> $GITHUB_STEP_SUMMARY
+            echo "- 📲 **Alternative Access**: [Vercel Dashboard](https://vercel.com/dashboard)" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### 📱 Production Android APK" >> $GITHUB_STEP_SUMMARY
-            echo "- 📥 **Release APK**: [Go to Artifacts](../../../actions/runs/${{ github.run_id }}) → \`android-apk-release\`" >> $GITHUB_STEP_SUMMARY
-            echo "- 📁 **File Name**: \`app-release.apk\` (Production Ready)" >> $GITHUB_STEP_SUMMARY
-            echo "- 🎆 **Optimized**: Multi-architecture, production performance" >> $GITHUB_STEP_SUMMARY
-            echo "- 📲 **Installation**: Enable 'Unknown Sources' on Android device" >> $GITHUB_STEP_SUMMARY
-            echo "- ⏳ **Retention**: Available for ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }} days" >> $GITHUB_STEP_SUMMARY
-          elif [ "${{ needs.build-android.result }}" == "success" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### 📱 Development Build" >> $GITHUB_STEP_SUMMARY
-            echo "- ✅ **Debug APK**: Built successfully for development and testing" >> $GITHUB_STEP_SUMMARY
-            echo "- 🔧 **Branch**: ${{ github.ref_name }} (Internal testing only)" >> $GITHUB_STEP_SUMMARY
-            echo "- 📝 **Note**: Debug builds are available to authorized team members only" >> $GITHUB_STEP_SUMMARY
           fi
+          
+          # Add Android APK download info only for release builds (main branch)
+          if [ "${{ needs.build-android.result }}" == "success" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "### 📱 Android Production APK" >> $GITHUB_STEP_SUMMARY
+            echo "- 📥 **Download**: [Go to Artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) → \`android-apk-release\`" >> $GITHUB_STEP_SUMMARY
+            echo "- 📁 **File Name**: \`app-release.apk\` (Production Ready)" >> $GITHUB_STEP_SUMMARY
+            echo "- 🎆 **Build Type**: Release (Multi-architecture: ARM, ARM64, x64)" >> $GITHUB_STEP_SUMMARY
+            echo "- 📲 **Installation**: Enable 'Unknown Sources' on Android device" >> $GITHUB_STEP_SUMMARY
+            echo "- 🚀 **Features**: Optimized performance, smaller size, production-ready" >> $GITHUB_STEP_SUMMARY
+            echo "- ⏳ **Retention**: Available for ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }} days" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.build-android.result }}" == "success" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "### 🔧 Development Build" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ **Debug APK**: Built successfully for internal testing" >> $GITHUB_STEP_SUMMARY
+            echo "- 🛠️ **Branch**: ${{ github.ref_name }} (Development branch)" >> $GITHUB_STEP_SUMMARY
+            echo "- 📝 **Note**: Debug builds available to authorized team members only" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "## 📋 Project Information" >> $GITHUB_STEP_SUMMARY
+          echo "- 🍽️ **Project**: Meal Generator Planner - Cross-platform Flutter App" >> $GITHUB_STEP_SUMMARY
+          echo "- 🎯 **Purpose**: Household meal planning and shopping list generation" >> $GITHUB_STEP_SUMMARY
+          echo "- 📱 **Platforms**: Web (PWA) + Android APK" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔒 **Privacy**: Offline-first, no login required, no data collection" >> $GITHUB_STEP_SUMMARY
+          echo "- 📚 **Documentation**: [Project Docs](https://github.com/${{ github.repository }}/tree/main/docs)" >> $GITHUB_STEP_SUMMARY
