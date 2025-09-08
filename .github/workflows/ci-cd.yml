@@ -341,15 +341,26 @@ jobs:
           name: web-build-${{ github.ref_name }}
           path: ./build/web/
 
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
       - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          # Deploy to production for main and release branches
-          vercel-prod: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/release' }}
-          working-directory: ./build/web/
+        id: vercel-deploy
+        working-directory: ./build/web/
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          if [ "${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/release' }}" == "true" ]; then
+            # Production deployment
+            DEPLOYMENT_URL=$(vercel --prod --token $VERCEL_TOKEN --confirm 2>&1 | grep -E 'https://[^\s]+' | tail -1)
+          else
+            # Preview deployment
+            DEPLOYMENT_URL=$(vercel --token $VERCEL_TOKEN --confirm 2>&1 | grep -E 'https://[^\s]+' | tail -1)
+          fi
+          echo "deployment-url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "Deployment URL: $DEPLOYMENT_URL"
 
       - name: 📋 Write Deployment Summary
         if: always()
@@ -361,6 +372,11 @@ jobs:
               echo "- Environment: 🌟 Production" >> $GITHUB_STEP_SUMMARY
             else
               echo "- Environment: 🧪 Preview" >> $GITHUB_STEP_SUMMARY
+            fi
+            if [ -n "${{ steps.vercel-deploy.outputs.deployment-url }}" ]; then
+              echo "- 🌐 **Live Application**: [${{ steps.vercel-deploy.outputs.deployment-url }}](${{ steps.vercel-deploy.outputs.deployment-url }})" >> $GITHUB_STEP_SUMMARY
+              echo "- 📱 **Mobile Friendly**: Access from any device" >> $GITHUB_STEP_SUMMARY
+              echo "- ⚙️ **Features**: Meal planning, shopping lists, offline support" >> $GITHUB_STEP_SUMMARY
             fi
           else
             echo "- Status: ❌ Deployment failed" >> $GITHUB_STEP_SUMMARY
@@ -393,4 +409,12 @@ jobs:
 
           if [ "${{ needs.deploy.result }}" != "skipped" ]; then
             echo "- **Vercel Deployment:** \`${{ needs.deploy.result }}\`" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ needs.deploy.result }}" == "success" ]; then
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 🌐 Quick Access" >> $GITHUB_STEP_SUMMARY
+              echo "- 🚀 **Live Application**: Check the deployment summary above for the direct URL" >> $GITHUB_STEP_SUMMARY
+              echo "- 📦 **Vercel Dashboard**: [View All Deployments](https://vercel.com/dashboard)" >> $GITHUB_STEP_SUMMARY
+              echo "- 📋 **Project**: Meal Generator Planner - Cross-platform Flutter PWA" >> $GITHUB_STEP_SUMMARY
+              echo "- 📱 **Features**: Offline meal planning, shopping lists, favorites management" >> $GITHUB_STEP_SUMMARY
+            fi
           fi
