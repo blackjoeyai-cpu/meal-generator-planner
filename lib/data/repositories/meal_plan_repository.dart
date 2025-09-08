@@ -9,7 +9,10 @@ abstract class MealPlanRepository {
   Future<MealPlan?> getMealPlanByDate(DateTime date);
 
   /// Get meal plans for a date range
-  Future<List<MealPlan>> getMealPlansInRange(DateTime startDate, DateTime endDate);
+  Future<List<MealPlan>> getMealPlansInRange(
+    DateTime startDate,
+    DateTime endDate,
+  );
 
   /// Add a new meal plan
   Future<void> addMealPlan(MealPlan mealPlan);

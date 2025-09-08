@@ -7,16 +7,16 @@ import 'package:meal_generator_planner/core/router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Hive
   await Hive.initFlutter();
-  
+
   // Register Hive adapters will be added when generated
   // await Hive.openBox(AppConstants.mealsBoxName);
   // await Hive.openBox(AppConstants.mealPlansBoxName);
   // await Hive.openBox(AppConstants.shoppingListsBoxName);
   // await Hive.openBox(AppConstants.favoritesBoxName);
-  
+
   runApp(const ProviderScope(child: MealGeneratorApp()));
 }
 

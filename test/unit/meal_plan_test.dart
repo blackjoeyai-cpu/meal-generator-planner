@@ -5,7 +5,7 @@ import 'package:meal_generator_planner/data/models/meal.dart';
 void main() {
   group('MealPlan Model Tests', () {
     final testDate = DateTime(2024, 1, 15);
-    
+
     final testBreakfast = Meal(
       id: 'breakfast_id',
       name: 'Oatmeal',

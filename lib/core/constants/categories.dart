@@ -7,12 +7,7 @@ class MealCategories {
   static const String dinner = 'dinner';
   static const String snack = 'snack';
 
-  static const List<String> allCategories = [
-    breakfast,
-    lunch,
-    dinner,
-    snack,
-  ];
+  static const List<String> allCategories = [breakfast, lunch, dinner, snack];
 
   /// Get display name for a meal category
   static String getDisplayName(String category) {

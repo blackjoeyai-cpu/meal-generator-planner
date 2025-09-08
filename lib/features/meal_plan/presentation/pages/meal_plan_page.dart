@@ -7,18 +7,12 @@ class MealPlanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meal Plan'),
-      ),
+      appBar: AppBar(title: const Text('Meal Plan')),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.restaurant_menu,
-              size: 64,
-              color: Colors.green,
-            ),
+            Icon(Icons.restaurant_menu, size: 64, color: Colors.green),
             SizedBox(height: 16),
             Text(
               'Meal Plan Feature',

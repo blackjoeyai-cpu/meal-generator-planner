@@ -5,9 +5,13 @@ class AppTheme {
   AppTheme._();
 
   // Color scheme
-  static const Color primaryColor = Color(0xFF4CAF50); // Green - representing fresh/healthy
+  static const Color primaryColor = Color(
+    0xFF4CAF50,
+  ); // Green - representing fresh/healthy
   static const Color primaryVariant = Color(0xFF388E3C);
-  static const Color secondaryColor = Color(0xFFFF9800); // Orange - warm and appetizing
+  static const Color secondaryColor = Color(
+    0xFFFF9800,
+  ); // Orange - warm and appetizing
   static const Color secondaryVariant = Color(0xFFE65100);
   static const Color backgroundColor = Color(0xFFF5F5F5);
   static const Color surfaceColor = Color(0xFFFFFFFF);
@@ -56,15 +60,14 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
       textTheme: const TextTheme(
         headlineLarge: TextStyle(
@@ -92,18 +95,9 @@ class AppTheme {
           fontWeight: FontWeight.w500,
           color: textPrimary,
         ),
-        bodyLarge: TextStyle(
-          fontSize: 16,
-          color: textPrimary,
-        ),
-        bodyMedium: TextStyle(
-          fontSize: 14,
-          color: textPrimary,
-        ),
-        bodySmall: TextStyle(
-          fontSize: 12,
-          color: textSecondary,
-        ),
+        bodyLarge: TextStyle(fontSize: 16, color: textPrimary),
+        bodyMedium: TextStyle(fontSize: 14, color: textPrimary),
+        bodySmall: TextStyle(fontSize: 12, color: textSecondary),
       ),
     );
   }

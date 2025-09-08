@@ -22,7 +22,11 @@ class DateUtils {
   /// Get start of week (Monday)
   static DateTime getStartOfWeek(DateTime date) {
     final daysFromMonday = date.weekday - 1;
-    return DateTime(date.year, date.month, date.day).subtract(Duration(days: daysFromMonday));
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+    ).subtract(Duration(days: daysFromMonday));
   }
 
   /// Get end of week (Sunday)
@@ -39,7 +43,9 @@ class DateUtils {
 
   /// Check if two dates are the same day
   static bool isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   /// Check if date is today

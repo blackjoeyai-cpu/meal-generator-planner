@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Loading widget for async operations
 class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({
-    super.key,
-    this.message = 'Loading...',
-  });
+  const LoadingWidget({super.key, this.message = 'Loading...'});
 
   final String message;
 
@@ -17,10 +14,7 @@ class LoadingWidget extends StatelessWidget {
         children: [
           const CircularProgressIndicator(),
           const SizedBox(height: 16),
-          Text(
-            message,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
+          Text(message, style: Theme.of(context).textTheme.bodyMedium),
         ],
       ),
     );
@@ -50,11 +44,7 @@ class EmptyStateWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 64,
-              color: Theme.of(context).colorScheme.outline,
-            ),
+            Icon(icon, size: 64, color: Theme.of(context).colorScheme.outline),
             const SizedBox(height: 16),
             Text(
               title,
@@ -65,8 +55,8 @@ class EmptyStateWidget extends StatelessWidget {
             Text(
               message,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
+                color: Theme.of(context).colorScheme.outline,
+              ),
               textAlign: TextAlign.center,
             ),
             if (actionButton != null) ...[
@@ -82,11 +72,7 @@ class EmptyStateWidget extends StatelessWidget {
 
 /// Error widget for displaying errors
 class ErrorWidget extends StatelessWidget {
-  const ErrorWidget({
-    super.key,
-    required this.message,
-    this.onRetry,
-  });
+  const ErrorWidget({super.key, required this.message, this.onRetry});
 
   final String message;
   final VoidCallback? onRetry;
@@ -118,10 +104,7 @@ class ErrorWidget extends StatelessWidget {
             ),
             if (onRetry != null) ...[
               const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: onRetry,
-                child: const Text('Retry'),
-              ),
+              ElevatedButton(onPressed: onRetry, child: const Text('Retry')),
             ],
           ],
         ),
