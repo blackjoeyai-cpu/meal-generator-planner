@@ -224,21 +224,36 @@ jobs:
           # Verify generated files exist for Android build
           find lib -name "*.g.dart" -type f | head -5
 
-      - name: Build Android APK
+      - name: Build Android APK (Release)
+        if: github.ref == 'refs/heads/main'
         run: |
-          if [ "${{ github.ref_name }}" == "release" ]; then
-            flutter build apk --release --target-platform android-arm,android-arm64,android-x64
-          else
-            flutter build apk --debug
-          fi
+          # Build release APK for multiple architectures (main branch)
+          flutter build apk --release --target-platform android-arm,android-arm64,android-x64
           # Verify APK was created
           ls -la build/app/outputs/flutter-apk/
 
-      - name: Upload APK Artifact
+      - name: Build Android APK (Debug)
+        if: github.ref != 'refs/heads/main'
+        run: |
+          # Build debug APK for other branches
+          flutter build apk --debug
+          # Verify APK was created
+          ls -la build/app/outputs/flutter-apk/
+
+      - name: Upload APK Artifact (Release)
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
-          name: android-apk-${{ github.ref_name }}
-          path: ${{ env.FLUTTER_WORKING_DIR }}/build/app/outputs/flutter-apk/app-${{ github.ref_name == 'release' && 'release' || 'debug' }}.apk
+          name: android-apk-release
+          path: ${{ env.FLUTTER_WORKING_DIR }}/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }}
+
+      - name: Upload APK Artifact (Debug)
+        if: github.ref != 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk-debug-${{ github.ref_name }}
+          path: ${{ env.FLUTTER_WORKING_DIR }}/build/app/outputs/flutter-apk/app-debug.apk
           retention-days: ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }}
     
       - name: 📋 Write Android Build Summary
@@ -247,22 +262,30 @@ jobs:
         run: |
           echo "## 📱 Android Build Summary" >> $GITHUB_STEP_SUMMARY
           if [ "${{ job.status }}" == "success" ]; then
-            echo "- Status: ✅ APK built successfully" >> $GITHUB_STEP_SUMMARY
-            echo "- Branch: 📦 ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
-            if [ "${{ github.ref_name }}" == "release" ]; then
-              echo "- Build Type: 🚀 Release APK (Multi-architecture)" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+              echo "- Status: ✅ Release APK built successfully" >> $GITHUB_STEP_SUMMARY
+              echo "- Branch: 🚀 Main (Production)" >> $GITHUB_STEP_SUMMARY
+              echo "- Build Type: 🎆 Production Release APK (Multi-architecture)" >> $GITHUB_STEP_SUMMARY
+              echo "- Architectures: 📱 ARM, ARM64, x64" >> $GITHUB_STEP_SUMMARY
+              echo "- Retention: ⏳ ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }} days" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📦 Production APK Download" >> $GITHUB_STEP_SUMMARY
+              echo "- 📁 **Artifact Name**: \`android-apk-release\`" >> $GITHUB_STEP_SUMMARY
+              echo "- 📥 **Download**: Go to [Actions → This Workflow → Artifacts](../../../actions/runs/${{ github.run_id }}) to download the APK" >> $GITHUB_STEP_SUMMARY
+              echo "- 📱 **File**: \`app-release.apk\` - Ready for production deployment" >> $GITHUB_STEP_SUMMARY
+              echo "- 📲 **Install**: Enable 'Unknown Sources' on your Android device to install" >> $GITHUB_STEP_SUMMARY
+              echo "- 🎆 **Release Features**: Optimized performance, smaller size, production-ready" >> $GITHUB_STEP_SUMMARY
+              echo "- 🎯 **Test**: Complete meal planning workflow, offline functionality" >> $GITHUB_STEP_SUMMARY
             else
-              echo "- Build Type: 🧪 Debug APK" >> $GITHUB_STEP_SUMMARY
+              echo "- Status: ✅ Debug APK built successfully" >> $GITHUB_STEP_SUMMARY
+              echo "- Branch: 🔧 ${{ github.ref_name }} (Development)" >> $GITHUB_STEP_SUMMARY
+              echo "- Build Type: 🛠️ Debug APK (Development Build)" >> $GITHUB_STEP_SUMMARY
+              echo "- Architecture: 📱 Single (Default)" >> $GITHUB_STEP_SUMMARY
+              echo "- Purpose: 🧪 Internal testing and development" >> $GITHUB_STEP_SUMMARY
+              echo "- Note: 📝 Debug builds are for development use only" >> $GITHUB_STEP_SUMMARY
             fi
-            echo "- Retention: ⏳ ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }} days" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### 📲 Download APK" >> $GITHUB_STEP_SUMMARY
-            echo "- 📁 **Artifact Name**: \`android-apk-${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
-            echo "- 📥 **Download**: Go to [Actions → This Workflow → Artifacts](../../../actions/runs/${{ github.run_id }}) to download the APK" >> $GITHUB_STEP_SUMMARY
-            echo "- 📱 **Install**: Enable 'Unknown Sources' on your Android device to install" >> $GITHUB_STEP_SUMMARY
-            echo "- 🎯 **Test Features**: Meal planning, shopping lists, offline functionality" >> $GITHUB_STEP_SUMMARY
           else
-            echo "- Status: ❌ Build failed" >> $GITHUB_STEP_SUMMARY
+            echo "- Status: ❌ Android build failed" >> $GITHUB_STEP_SUMMARY
           fi
 
   build-web:
@@ -431,12 +454,19 @@ jobs:
             fi
           fi
           
-          # Add Android download info if build was successful
-          if [ "${{ needs.build-android.result }}" == "success" ]; then
+          # Add Android download info only for release builds (main branch)
+          if [ "${{ needs.build-android.result }}" == "success" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### 📱 Android Download" >> $GITHUB_STEP_SUMMARY
-            echo "- 📥 **APK Download**: [Go to Artifacts](../../../actions/runs/${{ github.run_id }}) → \`android-apk-${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
-            echo "- 📁 **File Name**: \`app-${{ github.ref_name == 'release' && 'release' || 'debug' }}.apk\`" >> $GITHUB_STEP_SUMMARY
+            echo "### 📱 Production Android APK" >> $GITHUB_STEP_SUMMARY
+            echo "- 📥 **Release APK**: [Go to Artifacts](../../../actions/runs/${{ github.run_id }}) → \`android-apk-release\`" >> $GITHUB_STEP_SUMMARY
+            echo "- 📁 **File Name**: \`app-release.apk\` (Production Ready)" >> $GITHUB_STEP_SUMMARY
+            echo "- 🎆 **Optimized**: Multi-architecture, production performance" >> $GITHUB_STEP_SUMMARY
             echo "- 📲 **Installation**: Enable 'Unknown Sources' on Android device" >> $GITHUB_STEP_SUMMARY
             echo "- ⏳ **Retention**: Available for ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }} days" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.build-android.result }}" == "success" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 📱 Development Build" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ **Debug APK**: Built successfully for development and testing" >> $GITHUB_STEP_SUMMARY
+            echo "- 🔧 **Branch**: ${{ github.ref_name }} (Internal testing only)" >> $GITHUB_STEP_SUMMARY
+            echo "- 📝 **Note**: Debug builds are available to authorized team members only" >> $GITHUB_STEP_SUMMARY
           fi
