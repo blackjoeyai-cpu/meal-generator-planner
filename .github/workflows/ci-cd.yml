@@ -96,7 +96,7 @@ jobs:
           retention-days: ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }}
 
       - name: GitGuardian Security Scan
-        uses: GitGuardian/ggshield-action@v1.25.0
+        uses: GitGuardian/ggshield-action@v1.43.0
         env:
           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
           GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
@@ -160,7 +160,7 @@ jobs:
           fetch-depth: 0  # Full history for comprehensive scanning
 
       - name: GitGuardian Comprehensive Scan
-        uses: GitGuardian/ggshield-action@v1.25.0
+        uses: GitGuardian/ggshield-action@v1.43.0
         env:
           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
           GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
