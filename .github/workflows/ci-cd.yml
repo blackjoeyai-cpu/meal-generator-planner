@@ -248,7 +248,19 @@ jobs:
           echo "## 📱 Android Build Summary" >> $GITHUB_STEP_SUMMARY
           if [ "${{ job.status }}" == "success" ]; then
             echo "- Status: ✅ APK built successfully" >> $GITHUB_STEP_SUMMARY
+            echo "- Branch: 📦 ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ github.ref_name }}" == "release" ]; then
+              echo "- Build Type: 🚀 Release APK (Multi-architecture)" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- Build Type: 🧪 Debug APK" >> $GITHUB_STEP_SUMMARY
+            fi
             echo "- Retention: ⏳ ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }} days" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 📲 Download APK" >> $GITHUB_STEP_SUMMARY
+            echo "- 📁 **Artifact Name**: \`android-apk-${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "- 📥 **Download**: Go to [Actions → This Workflow → Artifacts](../../../actions/runs/${{ github.run_id }}) to download the APK" >> $GITHUB_STEP_SUMMARY
+            echo "- 📱 **Install**: Enable 'Unknown Sources' on your Android device to install" >> $GITHUB_STEP_SUMMARY
+            echo "- 🎯 **Test Features**: Meal planning, shopping lists, offline functionality" >> $GITHUB_STEP_SUMMARY
           else
             echo "- Status: ❌ Build failed" >> $GITHUB_STEP_SUMMARY
           fi
@@ -417,4 +429,14 @@ jobs:
               echo "- 📋 **Project**: Meal Generator Planner - Cross-platform Flutter PWA" >> $GITHUB_STEP_SUMMARY
               echo "- 📱 **Features**: Offline meal planning, shopping lists, favorites management" >> $GITHUB_STEP_SUMMARY
             fi
+          fi
+          
+          # Add Android download info if build was successful
+          if [ "${{ needs.build-android.result }}" == "success" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 📱 Android Download" >> $GITHUB_STEP_SUMMARY
+            echo "- 📥 **APK Download**: [Go to Artifacts](../../../actions/runs/${{ github.run_id }}) → \`android-apk-${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "- 📁 **File Name**: \`app-${{ github.ref_name == 'release' && 'release' || 'debug' }}.apk\`" >> $GITHUB_STEP_SUMMARY
+            echo "- 📲 **Installation**: Enable 'Unknown Sources' on Android device" >> $GITHUB_STEP_SUMMARY
+            echo "- ⏳ **Retention**: Available for ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }} days" >> $GITHUB_STEP_SUMMARY
           fi
