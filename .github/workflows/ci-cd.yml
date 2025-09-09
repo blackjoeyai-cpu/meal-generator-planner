@@ -85,11 +85,18 @@ jobs:
           flutter test test/widget/
           flutter test test/integration/ || echo "Integration tests may require additional setup"
 
+      - name: Set artifact name
+        if: always()
+        run: |
+          # Sanitize ref_name to remove invalid characters for artifact name
+          SANITIZED_REF_NAME=$(echo "${{ github.ref_name }}" | sed 's/\//-/g')
+          echo "ARTIFACT_NAME=test-coverage-$SANITIZED_REF_NAME" >> $GITHUB_ENV
+
       - name: Upload Test Coverage
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: test-coverage-${{ github.ref_name }}
+          name: ${{ env.ARTIFACT_NAME }}
           path: |
             coverage/
             test/coverage.html
@@ -248,11 +255,18 @@ jobs:
           path: ${{ env.FLUTTER_WORKING_DIR }}/build/app/outputs/flutter-apk/app-release.apk
           retention-days: ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }}
 
+      - name: Set debug APK artifact name
+        if: github.ref != 'refs/heads/main'
+        run: |
+          # Sanitize ref_name to remove invalid characters for artifact name
+          SANITIZED_REF_NAME=$(echo "${{ github.ref_name }}" | sed 's/\//-/g')
+          echo "DEBUG_APK_ARTIFACT_NAME=android-apk-debug-$SANITIZED_REF_NAME" >> $GITHUB_ENV
+
       - name: Upload APK Artifact (Debug)
         if: github.ref != 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
-          name: android-apk-debug-${{ github.ref_name }}
+          name: ${{ env.DEBUG_APK_ARTIFACT_NAME }}
           path: ${{ env.FLUTTER_WORKING_DIR }}/build/app/outputs/flutter-apk/app-debug.apk
           retention-days: ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }}
     
@@ -327,10 +341,16 @@ jobs:
           # Ensure proper asset handling for offline-first architecture
           ls -la build/web/
 
+      - name: Set web build artifact name
+        run: |
+          # Sanitize ref_name to remove invalid characters for artifact name
+          SANITIZED_REF_NAME=$(echo "${{ github.ref_name }}" | sed 's/\//-/g')
+          echo "WEB_ARTIFACT_NAME=web-build-$SANITIZED_REF_NAME" >> $GITHUB_ENV
+
       - name: Upload Web Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: web-build-${{ github.ref_name }}
+          name: ${{ env.WEB_ARTIFACT_NAME }}
           path: ${{ env.FLUTTER_WORKING_DIR }}/build/web/
           retention-days: ${{ vars.ARTIFACT_RETENTION_DAYS || 7 }}
 
@@ -362,10 +382,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set web artifact name for download
+        run: |
+          # Sanitize ref_name to match the upload name
+          SANITIZED_REF_NAME=$(echo "${{ github.ref_name }}" | sed 's/\//-/g')
+          echo "WEB_ARTIFACT_NAME=web-build-$SANITIZED_REF_NAME" >> $GITHUB_ENV
+
       - name: Download Web Artifact
         uses: actions/download-artifact@v4
         with:
-          name: web-build-${{ github.ref_name }}
+          name: ${{ env.WEB_ARTIFACT_NAME }}
           path: ./build/web/
 
       - name: Install Vercel CLI
