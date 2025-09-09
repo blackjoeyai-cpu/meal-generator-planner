@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:meal_generator_planner/core/constants/routes.dart';
 import 'package:meal_generator_planner/features/home/presentation/pages/home_page.dart';
 import 'package:meal_generator_planner/features/meal_plan/presentation/pages/meal_plan_page.dart';
+import 'package:meal_generator_planner/features/meal_plan/presentation/pages/generate_meal_plan_page.dart';
 import 'package:meal_generator_planner/features/shopping_list/presentation/pages/shopping_list_page.dart';
 import 'package:meal_generator_planner/features/favorites/presentation/pages/favorites_page.dart';
 
@@ -22,6 +23,11 @@ class AppRouter {
         path: RoutePaths.mealPlan,
         name: RouteNames.mealPlan,
         builder: (context, state) => const MealPlanPage(),
+      ),
+      GoRoute(
+        path: RoutePaths.generateMealPlan,
+        name: RouteNames.generateMealPlan,
+        builder: (context, state) => const GenerateMealPlanPage(),
       ),
       GoRoute(
         path: RoutePaths.shoppingList,

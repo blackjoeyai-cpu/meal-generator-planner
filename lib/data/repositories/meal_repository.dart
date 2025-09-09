@@ -28,4 +28,13 @@ abstract class MealRepository {
 
   /// Search meals by name or ingredients
   Future<List<Meal>> searchMeals(String query);
+
+  /// Get meals matching specific dietary requirements
+  Future<List<Meal>> getMealsByDietaryTags(List<DietaryTag> tags);
+
+  /// Get meals used within a specified time period
+  Future<List<Meal>> getRecentMeals(DateTime since);
+
+  /// Get meals excluding specific IDs
+  Future<List<Meal>> getMealsExcludingIds(List<String> excludedIds);
 }

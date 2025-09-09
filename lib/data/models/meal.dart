@@ -1,5 +1,22 @@
 import 'package:hive/hive.dart';
 
+/// Enum for difficulty levels
+enum DifficultyLevel {
+  easy,
+  medium,
+  hard,
+}
+
+/// Enum for dietary tags
+enum DietaryTag {
+  vegetarian,
+  vegan,
+  glutenFree,
+  dairyFree,
+  nutFree,
+  lowCarb,
+}
+
 /// Data model for a meal
 @HiveType(typeId: 0)
 class Meal extends HiveObject {
@@ -30,6 +47,18 @@ class Meal extends HiveObject {
   @HiveField(8)
   final bool isFavorite;
 
+  @HiveField(9)
+  final List<DietaryTag> dietaryTags;
+
+  @HiveField(10)
+  final DifficultyLevel difficulty;
+
+  @HiveField(11)
+  final bool isCustomUserMeal;
+
+  @HiveField(12)
+  final DateTime createdAt;
+
   Meal({
     required this.id,
     required this.name,
@@ -40,6 +69,10 @@ class Meal extends HiveObject {
     this.imageUrl,
     this.preparationTime = 0,
     this.isFavorite = false,
+    this.dietaryTags = const [],
+    this.difficulty = DifficultyLevel.easy,
+    this.isCustomUserMeal = false,
+    required this.createdAt,
   });
 
   /// Creates a copy of this meal with the given fields replaced with new values
@@ -53,6 +86,10 @@ class Meal extends HiveObject {
     String? imageUrl,
     int? preparationTime,
     bool? isFavorite,
+    List<DietaryTag>? dietaryTags,
+    DifficultyLevel? difficulty,
+    bool? isCustomUserMeal,
+    DateTime? createdAt,
   }) {
     return Meal(
       id: id ?? this.id,
@@ -64,6 +101,10 @@ class Meal extends HiveObject {
       imageUrl: imageUrl ?? this.imageUrl,
       preparationTime: preparationTime ?? this.preparationTime,
       isFavorite: isFavorite ?? this.isFavorite,
+      dietaryTags: dietaryTags ?? this.dietaryTags,
+      difficulty: difficulty ?? this.difficulty,
+      isCustomUserMeal: isCustomUserMeal ?? this.isCustomUserMeal,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 

@@ -28,4 +28,13 @@ abstract class MealPlanRepository {
 
   /// Check if meal plan exists for date
   Future<bool> hasMealPlanForDate(DateTime date);
+
+  /// Get all meal plans for a specific week
+  Future<List<MealPlan>> getMealPlansForWeek(DateTime weekStartDate);
+
+  /// Get the most recently generated meal plan
+  Future<MealPlan?> getMostRecentMealPlan();
+
+  /// Get IDs of meals used within a specified time period
+  Future<List<String>> getRecentMealIds(DateTime since);
 }

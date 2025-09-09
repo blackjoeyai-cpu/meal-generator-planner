@@ -69,4 +69,9 @@ class DateUtils {
       return formatDateWithDay(date);
     }
   }
+
+  /// Add days to a date
+  static DateTime addDaysToDate(DateTime date, int days) {
+    return date.add(Duration(days: days));
+  }
 }

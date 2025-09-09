@@ -29,6 +29,14 @@ class HomePage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 40),
+            // Generate New Plan Button
+            _PrimaryActionButton(
+              title: 'Generate New Plan',
+              description: 'Create a new weekly meal plan',
+              icon: Icons.auto_fix_high,
+              onTap: () => context.go(RoutePaths.generateMealPlan),
+            ),
+            const SizedBox(height: 16),
             _NavigationCard(
               title: 'Meal Plan',
               description: 'Create and manage weekly meal plans',
@@ -50,6 +58,71 @@ class HomePage extends StatelessWidget {
               onTap: () => context.go(RoutePaths.favorites),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PrimaryActionButton extends StatelessWidget {
+  const _PrimaryActionButton({
+    required this.title,
+    required this.description,
+    required this.icon,
+    required this.onTap,
+  });
+
+  final String title;
+  final String description;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Theme.of(context).colorScheme.primary,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                size: 40,
+                color: Colors.white,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      description,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(
+                Icons.chevron_right,
+                color: Colors.white,
+              ),
+            ],
+          ),
         ),
       ),
     );

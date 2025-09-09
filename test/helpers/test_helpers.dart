@@ -18,6 +18,7 @@ class TestHelpers {
     String notes = 'Test notes',
     int preparationTime = 30,
     bool isFavorite = false,
+    DateTime? createdAt,
   }) {
     return Meal(
       id: id ?? IdGenerator.generateMealId(),
@@ -28,6 +29,7 @@ class TestHelpers {
       notes: notes,
       preparationTime: preparationTime,
       isFavorite: isFavorite,
+      createdAt: createdAt ?? DateTime.now(),
     );
   }
 

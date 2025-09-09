@@ -1,3 +1,6 @@
+import 'package:meal_generator_planner/core/enums/meal_category.dart';
+import 'package:meal_generator_planner/core/enums/food_category.dart';
+
 /// Meal categories used throughout the application
 class MealCategories {
   MealCategories._();
@@ -22,6 +25,36 @@ class MealCategories {
         return 'Snack';
       default:
         return category.toUpperCase();
+    }
+  }
+  
+  /// Convert MealCategory enum to string
+  static String fromEnum(MealCategory category) {
+    switch (category) {
+      case MealCategory.breakfast:
+        return breakfast;
+      case MealCategory.lunch:
+        return lunch;
+      case MealCategory.dinner:
+        return dinner;
+      case MealCategory.snack:
+        return snack;
+    }
+  }
+  
+  /// Convert string to MealCategory enum
+  static MealCategory toEnum(String category) {
+    switch (category) {
+      case breakfast:
+        return MealCategory.breakfast;
+      case lunch:
+        return MealCategory.lunch;
+      case dinner:
+        return MealCategory.dinner;
+      case snack:
+        return MealCategory.snack;
+      default:
+        return MealCategory.breakfast;
     }
   }
 }
@@ -51,4 +84,54 @@ class FoodCategories {
     beverages,
     other,
   ];
+  
+  /// Convert FoodCategory enum to string
+  static String fromEnum(FoodCategory category) {
+    switch (category) {
+      case FoodCategory.vegetables:
+        return vegetables;
+      case FoodCategory.fruits:
+        return fruits;
+      case FoodCategory.meat:
+        return meat;
+      case FoodCategory.seafood:
+        return seafood;
+      case FoodCategory.dairy:
+        return dairy;
+      case FoodCategory.grains:
+        return grains;
+      case FoodCategory.spices:
+        return spices;
+      case FoodCategory.beverages:
+        return beverages;
+      case FoodCategory.other:
+        return other;
+    }
+  }
+  
+  /// Convert string to FoodCategory enum
+  static FoodCategory toEnum(String category) {
+    switch (category) {
+      case vegetables:
+        return FoodCategory.vegetables;
+      case fruits:
+        return FoodCategory.fruits;
+      case meat:
+        return FoodCategory.meat;
+      case seafood:
+        return FoodCategory.seafood;
+      case dairy:
+        return FoodCategory.dairy;
+      case grains:
+        return FoodCategory.grains;
+      case spices:
+        return FoodCategory.spices;
+      case beverages:
+        return FoodCategory.beverages;
+      case other:
+        return FoodCategory.other;
+      default:
+        return FoodCategory.other;
+    }
+  }
 }
