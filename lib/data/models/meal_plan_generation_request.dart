@@ -71,14 +71,14 @@ class MealPlanGenerationRequest extends HiveObject {
 
   @override
   int get hashCode => Object.hash(
-        weekStartDate,
-        numberOfPeople,
-        restrictions,
-        excludedIngredients,
-        previousWeekMealIds,
-        includeFavorites,
-        pinnedFavoriteIds,
-      );
+    weekStartDate,
+    numberOfPeople,
+    restrictions,
+    excludedIngredients,
+    previousWeekMealIds,
+    includeFavorites,
+    pinnedFavoriteIds,
+  );
 
   @override
   String toString() {

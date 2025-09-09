@@ -38,8 +38,8 @@ class AvailableMealsNotifier extends StateNotifier<AvailableMealsState> {
   final MealRepository _mealRepository;
 
   AvailableMealsNotifier({required MealRepository mealRepository})
-      : _mealRepository = mealRepository,
-        super(AvailableMealsState());
+    : _mealRepository = mealRepository,
+      super(AvailableMealsState());
 
   /// Load all meals from the repository
   Future<void> loadAllMeals() async {
@@ -55,18 +55,15 @@ class AvailableMealsNotifier extends StateNotifier<AvailableMealsState> {
     } catch (e, stackTrace) {
       debugPrint('Error loading meals: $e');
       debugPrint('Stack trace: $stackTrace');
-      
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
 
   /// Apply filters to the available meals
   void applyFilters(MealPlanGenerationRequest request) {
     state = state.copyWith(filterCriteria: request);
-    
+
     // In a real implementation, we would re-fetch meals with the new filters
     // For now, we'll just update the filter criteria in state
   }
@@ -87,16 +84,20 @@ class AvailableMealsNotifier extends StateNotifier<AvailableMealsState> {
 
         // Check if all meal tags are compatible with restrictions
         return meal.dietaryTags.every(
-            (tag) => state.filterCriteria!.restrictions.contains(tag));
+          (tag) => state.filterCriteria!.restrictions.contains(tag),
+        );
       }).toList();
     }
 
     // Apply excluded ingredients filter
     if (state.filterCriteria!.excludedIngredients.isNotEmpty) {
       filtered = filtered.where((meal) {
-        return !meal.ingredients.any((ingredient) =>
-            state.filterCriteria!.excludedIngredients.any((excluded) =>
-                ingredient.toLowerCase().contains(excluded.toLowerCase())));
+        return !meal.ingredients.any(
+          (ingredient) => state.filterCriteria!.excludedIngredients.any(
+            (excluded) =>
+                ingredient.toLowerCase().contains(excluded.toLowerCase()),
+          ),
+        );
       }).toList();
     }
 
@@ -111,16 +112,14 @@ class AvailableMealsNotifier extends StateNotifier<AvailableMealsState> {
 
 /// Riverpod provider for available meals with filtering
 final availableMealsProvider =
-    StateNotifierProvider<AvailableMealsNotifier, AvailableMealsState>(
-  (ref) {
-    // In a real implementation, this would be injected through ref.read
-    // For now, we'll create a mock repository
-    // TODO: Replace with actual repository instance when available
-    final mealRepository = FakeMealRepository();
-    
-    return AvailableMealsNotifier(mealRepository: mealRepository);
-  },
-);
+    StateNotifierProvider<AvailableMealsNotifier, AvailableMealsState>((ref) {
+      // In a real implementation, this would be injected through ref.read
+      // For now, we'll create a mock repository
+      // TODO: Replace with actual repository instance when available
+      final mealRepository = FakeMealRepository();
+
+      return AvailableMealsNotifier(mealRepository: mealRepository);
+    });
 
 // TODO: Remove this fake repository when real one is available
 class FakeMealRepository implements MealRepository {

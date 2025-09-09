@@ -6,7 +6,9 @@ import 'package:meal_generator_planner/main.dart';
 
 void main() {
   group('Meal Plan Generation Integration Tests', () {
-    testWidgets('Generate meal plan from home page', (WidgetTester tester) async {
+    testWidgets('Generate meal plan from home page', (
+      WidgetTester tester,
+    ) async {
       // Start the app with ProviderScope
       await tester.pumpWidget(const ProviderScope(child: MealGeneratorApp()));
       await tester.pumpAndSettle();
@@ -49,13 +51,18 @@ void main() {
       expect(switchWidget.value, true); // Initially on
 
       // Find and tap the generate button
-      final generatePlanButton = find.widgetWithText(ElevatedButton, 'Generate Meal Plan');
+      final generatePlanButton = find.widgetWithText(
+        ElevatedButton,
+        'Generate Meal Plan',
+      );
       expect(generatePlanButton, findsOneWidget);
       // Note: In a real test, we would mock the service and verify the results
       // For now, we're just testing the UI flow
     });
 
-    testWidgets('Navigate through meal plan pages', (WidgetTester tester) async {
+    testWidgets('Navigate through meal plan pages', (
+      WidgetTester tester,
+    ) async {
       // Start the app with ProviderScope
       await tester.pumpWidget(const ProviderScope(child: MealGeneratorApp()));
       await tester.pumpAndSettle();
@@ -68,7 +75,10 @@ void main() {
 
       // Verify we're on the meal plan page
       expect(find.text('Meal Plan Feature'), findsOneWidget);
-      expect(find.text('Feature implementation coming soon...'), findsOneWidget);
+      expect(
+        find.text('Feature implementation coming soon...'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('Navigate to favorites page', (WidgetTester tester) async {
@@ -84,7 +94,10 @@ void main() {
 
       // Verify we're on the favorites page
       expect(find.text('Favorites Feature'), findsOneWidget);
-      expect(find.text('Feature implementation coming soon...'), findsOneWidget);
+      expect(
+        find.text('Feature implementation coming soon...'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('Navigate to shopping list page', (WidgetTester tester) async {
@@ -100,7 +113,10 @@ void main() {
 
       // Verify we're on the shopping list page
       expect(find.text('Shopping List Feature'), findsOneWidget);
-      expect(find.text('Feature implementation coming soon...'), findsOneWidget);
+      expect(
+        find.text('Feature implementation coming soon...'),
+        findsOneWidget,
+      );
     });
   });
 }

@@ -10,9 +10,9 @@ import 'package:meal_generator_planner/data/repositories/meal_plan_repository.da
 /// Exception thrown when storage operations fail
 class StorageFailureException implements Exception {
   final String message;
-  
+
   StorageFailureException(this.message);
-  
+
   @override
   String toString() => 'StorageFailureException: $message';
 }
@@ -23,7 +23,8 @@ class MealPlanGeneratorState {
   final List<MealPlan>? mealPlans;
   final String? errorMessage;
   final bool isSuccess;
-  final MealPlanGenerationRequest? lastRequest; // Store last request for regeneration
+  final MealPlanGenerationRequest?
+  lastRequest; // Store last request for regeneration
 
   MealPlanGeneratorState({
     this.isLoading = false,
@@ -59,17 +60,19 @@ class MealPlanGeneratorNotifier extends StateNotifier<MealPlanGeneratorState> {
     required MealRepository mealRepository,
     required MealPlanRepository mealPlanRepository,
   }) : _mealGenerationService = MealGenerationService(
-          mealRepository: mealRepository,
-        ),
-        _mealPlanRepository = mealPlanRepository,
-        super(MealPlanGeneratorState());
+         mealRepository: mealRepository,
+       ),
+       _mealPlanRepository = mealPlanRepository,
+       super(MealPlanGeneratorState());
 
   /// Generate a new meal plan based on the provided request
   Future<void> generateMealPlan(MealPlanGenerationRequest request) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
-      final mealPlans = await _mealGenerationService.generateWeeklyMealPlan(request);
+      final mealPlans = await _mealGenerationService.generateWeeklyMealPlan(
+        request,
+      );
       state = MealPlanGeneratorState(
         isLoading: false,
         mealPlans: mealPlans,
@@ -79,12 +82,13 @@ class MealPlanGeneratorNotifier extends StateNotifier<MealPlanGeneratorState> {
     } catch (e, stackTrace) {
       debugPrint('Error generating meal plan: $e');
       debugPrint('Stack trace: $stackTrace');
-      
+
       state = state.copyWith(
         isLoading: false,
         errorMessage: e.toString(),
         isSuccess: false,
-        lastRequest: request, // Still store the request even if generation failed
+        lastRequest:
+            request, // Still store the request even if generation failed
       );
     }
   }
@@ -104,9 +108,7 @@ class MealPlanGeneratorNotifier extends StateNotifier<MealPlanGeneratorState> {
   /// Save the generated meal plans to storage
   Future<void> saveMealPlans() async {
     if (state.mealPlans == null || state.mealPlans!.isEmpty) {
-      state = state.copyWith(
-        errorMessage: 'No meal plans to save',
-      );
+      state = state.copyWith(errorMessage: 'No meal plans to save');
       return;
     }
 
@@ -117,7 +119,7 @@ class MealPlanGeneratorNotifier extends StateNotifier<MealPlanGeneratorState> {
       for (final mealPlan in state.mealPlans!) {
         await _mealPlanRepository.addMealPlan(mealPlan);
       }
-      
+
       state = state.copyWith(
         isLoading: false,
         isSuccess: true,
@@ -126,7 +128,7 @@ class MealPlanGeneratorNotifier extends StateNotifier<MealPlanGeneratorState> {
     } catch (e, stackTrace) {
       debugPrint('Error saving meal plans: $e');
       debugPrint('Stack trace: $stackTrace');
-      
+
       state = state.copyWith(
         isLoading: false,
         errorMessage: 'Failed to save meal plans: ${e.toString()}',
@@ -142,20 +144,21 @@ class MealPlanGeneratorNotifier extends StateNotifier<MealPlanGeneratorState> {
 }
 
 /// Riverpod provider for meal plan generation
-final mealPlanGeneratorProvider = StateNotifierProvider<MealPlanGeneratorNotifier, MealPlanGeneratorState>(
-  (ref) {
-    // In a real implementation, these would be injected through ref.read
-    // For now, we'll create mock repositories
-    // TODO: Replace with actual repository instances when available
-    final mealRepository = FakeMealRepository();
-    final mealPlanRepository = FakeMealPlanRepository();
-    
-    return MealPlanGeneratorNotifier(
-      mealRepository: mealRepository,
-      mealPlanRepository: mealPlanRepository,
-    );
-  },
-);
+final mealPlanGeneratorProvider =
+    StateNotifierProvider<MealPlanGeneratorNotifier, MealPlanGeneratorState>((
+      ref,
+    ) {
+      // In a real implementation, these would be injected through ref.read
+      // For now, we'll create mock repositories
+      // TODO: Replace with actual repository instances when available
+      final mealRepository = FakeMealRepository();
+      final mealPlanRepository = FakeMealPlanRepository();
+
+      return MealPlanGeneratorNotifier(
+        mealRepository: mealRepository,
+        mealPlanRepository: mealPlanRepository,
+      );
+    });
 
 // TODO: Remove these fake repositories when real ones are available
 class FakeMealRepository implements MealRepository {
@@ -208,7 +211,10 @@ class FakeMealPlanRepository implements MealPlanRepository {
   Future<MealPlan?> getMealPlanByDate(DateTime date) async => null;
 
   @override
-  Future<List<MealPlan>> getMealPlansInRange(DateTime startDate, DateTime endDate) async => [];
+  Future<List<MealPlan>> getMealPlansInRange(
+    DateTime startDate,
+    DateTime endDate,
+  ) async => [];
 
   @override
   Future<List<MealPlan>> getCurrentWeekMealPlans() async => [];
@@ -224,7 +230,8 @@ class FakeMealPlanRepository implements MealPlanRepository {
 
   // New methods that need to be implemented
   @override
-  Future<List<MealPlan>> getMealPlansForWeek(DateTime weekStartDate) async => [];
+  Future<List<MealPlan>> getMealPlansForWeek(DateTime weekStartDate) async =>
+      [];
 
   @override
   Future<MealPlan?> getMostRecentMealPlan() async => null;

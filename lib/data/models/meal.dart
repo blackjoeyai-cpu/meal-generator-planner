@@ -1,21 +1,10 @@
 import 'package:hive/hive.dart';
 
 /// Enum for difficulty levels
-enum DifficultyLevel {
-  easy,
-  medium,
-  hard,
-}
+enum DifficultyLevel { easy, medium, hard }
 
 /// Enum for dietary tags
-enum DietaryTag {
-  vegetarian,
-  vegan,
-  glutenFree,
-  dairyFree,
-  nutFree,
-  lowCarb,
-}
+enum DietaryTag { vegetarian, vegan, glutenFree, dairyFree, nutFree, lowCarb }
 
 /// Data model for a meal
 @HiveType(typeId: 0)

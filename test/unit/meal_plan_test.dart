@@ -263,9 +263,15 @@ void main() {
 
       expect(copiedMealPlan.id, 'new_id');
       expect(copiedMealPlan.date, newDate);
-      expect(copiedMealPlan.breakfast, originalMealPlan.breakfast); // Should be unchanged
+      expect(
+        copiedMealPlan.breakfast,
+        originalMealPlan.breakfast,
+      ); // Should be unchanged
       expect(copiedMealPlan.lunch, newLunch);
-      expect(copiedMealPlan.dinner, originalMealPlan.dinner); // Should be unchanged
+      expect(
+        copiedMealPlan.dinner,
+        originalMealPlan.dinner,
+      ); // Should be unchanged
     });
 
     test('should have correct equality comparison', () {
@@ -303,10 +309,7 @@ void main() {
     });
 
     test('should convert to string correctly', () {
-      final mealPlan = MealPlan(
-        id: 'test_id',
-        date: DateTime(2024, 1, 15),
-      );
+      final mealPlan = MealPlan(id: 'test_id', date: DateTime(2024, 1, 15));
 
       expect(mealPlan.toString(), contains('MealPlan'));
       expect(mealPlan.toString(), contains('test_id'));

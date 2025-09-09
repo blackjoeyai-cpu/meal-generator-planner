@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 /// Loading indicator widget with descriptive text
 class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator({super.key, this.message = 'Generating your meal plan...'});
+  const LoadingIndicator({
+    super.key,
+    this.message = 'Generating your meal plan...',
+  });
 
   final String message;
 

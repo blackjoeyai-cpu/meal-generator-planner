@@ -27,7 +27,7 @@ class MealCategories {
         return category.toUpperCase();
     }
   }
-  
+
   /// Convert MealCategory enum to string
   static String fromEnum(MealCategory category) {
     switch (category) {
@@ -41,7 +41,7 @@ class MealCategories {
         return snack;
     }
   }
-  
+
   /// Convert string to MealCategory enum
   static MealCategory toEnum(String category) {
     switch (category) {
@@ -84,7 +84,7 @@ class FoodCategories {
     beverages,
     other,
   ];
-  
+
   /// Convert FoodCategory enum to string
   static String fromEnum(FoodCategory category) {
     switch (category) {
@@ -108,7 +108,7 @@ class FoodCategories {
         return other;
     }
   }
-  
+
   /// Convert string to FoodCategory enum
   static FoodCategory toEnum(String category) {
     switch (category) {

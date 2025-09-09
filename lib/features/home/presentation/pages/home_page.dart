@@ -88,11 +88,7 @@ class _PrimaryActionButton extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              Icon(
-                icon,
-                size: 40,
-                color: Colors.white,
-              ),
+              Icon(icon, size: 40, color: Colors.white),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
@@ -117,10 +113,7 @@ class _PrimaryActionButton extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(
-                Icons.chevron_right,
-                color: Colors.white,
-              ),
+              const Icon(Icons.chevron_right, color: Colors.white),
             ],
           ),
         ),

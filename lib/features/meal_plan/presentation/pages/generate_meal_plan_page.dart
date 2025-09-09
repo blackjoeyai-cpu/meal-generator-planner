@@ -7,7 +7,10 @@ import 'package:meal_generator_planner/providers/meal_plan_generator_provider.da
 
 /// Loading indicator widget with descriptive text
 class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator({super.key, this.message = 'Generating your meal plan...'});
+  const LoadingIndicator({
+    super.key,
+    this.message = 'Generating your meal plan...',
+  });
 
   final String message;
 
@@ -35,22 +38,23 @@ class GenerateMealPlanPage extends ConsumerStatefulWidget {
   const GenerateMealPlanPage({super.key});
 
   @override
-  ConsumerState<GenerateMealPlanPage> createState() => _GenerateMealPlanPageState();
+  ConsumerState<GenerateMealPlanPage> createState() =>
+      _GenerateMealPlanPageState();
 }
 
 class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
   final _formKey = GlobalKey<FormState>();
-  
+
   // Form fields
   int _numberOfPeople = 4;
   final List<DietaryTag> _selectedDietaryTags = [];
   final List<String> _excludedIngredients = [];
   final TextEditingController _ingredientController = TextEditingController();
   bool _includeFavorites = true;
-  
+
   // Error handling
   String? _errorMessage;
-  
+
   // Add a new ingredient to exclude
   void _addExcludedIngredient() {
     if (_ingredientController.text.trim().isNotEmpty) {
@@ -61,7 +65,7 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
       });
     }
   }
-  
+
   // Remove an excluded ingredient
   void _removeExcludedIngredient(String ingredient) {
     setState(() {
@@ -69,7 +73,7 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
       _errorMessage = null; // Clear any previous error
     });
   }
-  
+
   // Toggle a dietary tag
   void _toggleDietaryTag(DietaryTag tag) {
     setState(() {
@@ -81,14 +85,14 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
       _errorMessage = null; // Clear any previous error
     });
   }
-  
+
   // Generate the meal plan
   void _generateMealPlan() {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _errorMessage = null; // Clear any previous error
       });
-      
+
       // Create the generation request
       final request = MealPlanGenerationRequest(
         weekStartDate: DateTime.now(),
@@ -97,12 +101,13 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
         excludedIngredients: List.from(_excludedIngredients),
         previousWeekMealIds: [], // In a real app, this would come from storage
         includeFavorites: _includeFavorites,
-        pinnedFavoriteIds: [], // In a real app, this would come from user selections
+        pinnedFavoriteIds:
+            [], // In a real app, this would come from user selections
       );
-      
+
       // Call the meal plan generation service through the provider
       ref.read(mealPlanGeneratorProvider.notifier).generateMealPlan(request);
-      
+
       // Navigate to results page
       Navigator.push(
         context,
@@ -119,16 +124,14 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
   @override
   Widget build(BuildContext context) {
     final mealPlanState = ref.watch(mealPlanGeneratorProvider);
-    
+
     // Show loading indicator if generating
     if (mealPlanState.isLoading && Navigator.canPop(context)) {
       return const LoadingIndicator();
     }
-    
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Generate Meal Plan'),
-      ),
+      appBar: AppBar(title: const Text('Generate Meal Plan')),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -141,7 +144,7 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
-              
+
               // Error message display
               if (_errorMessage != null) ...[
                 Card(
@@ -185,7 +188,7 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
                 ),
                 const SizedBox(height: 20),
               ],
-              
+
               // Number of people selector
               const Text(
                 'Number of People',
@@ -207,7 +210,10 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
                   ),
                   Text(
                     '$_numberOfPeople',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   IconButton(
                     onPressed: () {
@@ -223,7 +229,7 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
                 ],
               ),
               const SizedBox(height: 20),
-              
+
               // Dietary preferences
               const Text(
                 'Dietary Preferences',
@@ -239,12 +245,14 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
                     label: Text(_getDietaryTagDisplayName(tag)),
                     selected: isSelected,
                     onSelected: (_) => _toggleDietaryTag(tag),
-                    selectedColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+                    selectedColor: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.2),
                   );
                 }).toList(),
               ),
               const SizedBox(height: 20),
-              
+
               // Include favorites toggle
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -265,7 +273,7 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
                 ],
               ),
               const SizedBox(height: 20),
-              
+
               // Excluded ingredients
               const Text(
                 'Exclude Ingredients',
@@ -305,7 +313,7 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
                   }).toList(),
                 ),
               const SizedBox(height: 30),
-              
+
               // Generate button
               SizedBox(
                 width: double.infinity,
@@ -329,7 +337,7 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
       ),
     );
   }
-  
+
   String _getDietaryTagDisplayName(DietaryTag tag) {
     switch (tag) {
       case DietaryTag.vegetarian:
@@ -346,7 +354,7 @@ class _GenerateMealPlanPageState extends ConsumerState<GenerateMealPlanPage> {
         return 'Low Carb';
     }
   }
-  
+
   @override
   void dispose() {
     _ingredientController.dispose();

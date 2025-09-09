@@ -27,9 +27,7 @@ void main() {
 
     test('should use default values when not provided', () {
       final testDate = DateTime(2024, 1, 15);
-      final request = MealPlanGenerationRequest(
-        weekStartDate: testDate,
-      );
+      final request = MealPlanGenerationRequest(weekStartDate: testDate);
 
       expect(request.weekStartDate, testDate);
       expect(request.numberOfPeople, 4); // Default value
@@ -61,15 +59,27 @@ void main() {
       expect(copiedRequest.weekStartDate, newDate);
       expect(copiedRequest.numberOfPeople, 6);
       expect(copiedRequest.restrictions, [DietaryTag.vegan]);
-      expect(copiedRequest.excludedIngredients, originalRequest.excludedIngredients); // Should be unchanged
-      expect(copiedRequest.previousWeekMealIds, originalRequest.previousWeekMealIds); // Should be unchanged
-      expect(copiedRequest.includeFavorites, originalRequest.includeFavorites); // Should be unchanged
-      expect(copiedRequest.pinnedFavoriteIds, originalRequest.pinnedFavoriteIds); // Should be unchanged
+      expect(
+        copiedRequest.excludedIngredients,
+        originalRequest.excludedIngredients,
+      ); // Should be unchanged
+      expect(
+        copiedRequest.previousWeekMealIds,
+        originalRequest.previousWeekMealIds,
+      ); // Should be unchanged
+      expect(
+        copiedRequest.includeFavorites,
+        originalRequest.includeFavorites,
+      ); // Should be unchanged
+      expect(
+        copiedRequest.pinnedFavoriteIds,
+        originalRequest.pinnedFavoriteIds,
+      ); // Should be unchanged
     });
 
     test('should have correct equality comparison', () {
       final date = DateTime(2024, 1, 15);
-      
+
       final request1 = MealPlanGenerationRequest(
         weekStartDate: date,
         numberOfPeople: 4,

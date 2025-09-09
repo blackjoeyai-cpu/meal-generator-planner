@@ -5,26 +5,22 @@ import 'package:meal_generator_planner/features/meal_plan/presentation/pages/gen
 
 void main() {
   group('GenerateMealPlanPage Widget Tests', () {
-    testWidgets('should render the page with title', (WidgetTester tester) async {
+    testWidgets('should render the page with title', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
       expect(find.widgetWithText(AppBar, 'Generate Meal Plan'), findsOneWidget);
       expect(find.text('Configure your meal plan'), findsOneWidget);
     });
 
-    testWidgets('should render number of people selector', (WidgetTester tester) async {
+    testWidgets('should render number of people selector', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
       expect(find.text('Number of People'), findsOneWidget);
@@ -37,11 +33,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
       expect(find.text('4'), findsOneWidget); // Default value
@@ -52,34 +44,27 @@ void main() {
       expect(find.text('5'), findsOneWidget);
     });
 
-    testWidgets('should decrease number of people when remove button is pressed', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
-      );
+    testWidgets(
+      'should decrease number of people when remove button is pressed',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
+        );
 
-      expect(find.text('4'), findsOneWidget); // Default value
+        expect(find.text('4'), findsOneWidget); // Default value
 
-      await tester.tap(find.byIcon(Icons.remove).first);
-      await tester.pump();
+        await tester.tap(find.byIcon(Icons.remove).first);
+        await tester.pump();
 
-      expect(find.text('3'), findsOneWidget);
-    });
+        expect(find.text('3'), findsOneWidget);
+      },
+    );
 
     testWidgets('should not decrease below 1 person', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
       // Decrease to 1
@@ -102,11 +87,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
       // Increase to 10
@@ -129,15 +110,11 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
       expect(find.text('Dietary Preferences'), findsOneWidget);
-      
+
       // Check for dietary tags
       expect(find.text('Vegetarian'), findsOneWidget);
       expect(find.text('Vegan'), findsOneWidget);
@@ -151,20 +128,20 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
       final vegetarianChip = find.text('Vegetarian');
       expect(vegetarianChip, findsOneWidget);
 
       // Initially not selected
-      final unselectedChip = tester.widget<FilterChip>(find.byWidgetPredicate(
-        (widget) => widget is FilterChip && widget.label.toString().contains('Vegetarian'),
-      ));
+      final unselectedChip = tester.widget<FilterChip>(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is FilterChip &&
+              widget.label.toString().contains('Vegetarian'),
+        ),
+      );
       expect(unselectedChip.selected, false);
 
       // Tap the chip
@@ -172,9 +149,13 @@ void main() {
       await tester.pump();
 
       // Should now be selected
-      final selectedChip = tester.widget<FilterChip>(find.byWidgetPredicate(
-        (widget) => widget is FilterChip && widget.label.toString().contains('Vegetarian'),
-      ));
+      final selectedChip = tester.widget<FilterChip>(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is FilterChip &&
+              widget.label.toString().contains('Vegetarian'),
+        ),
+      );
       expect(selectedChip.selected, true);
     });
 
@@ -182,11 +163,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
       expect(find.text('Include Favorite Meals'), findsOneWidget);
@@ -197,11 +174,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
       final switchFinder = find.byType(Switch);
@@ -224,11 +197,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
       expect(find.text('Exclude Ingredients'), findsOneWidget);
@@ -240,16 +209,12 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
       // Enter text in the field
       await tester.enterText(find.byType(TextFormField), 'nuts');
-      
+
       // Tap add button (second one)
       await tester.tap(find.byIcon(Icons.add).at(1));
       await tester.pump();
@@ -259,44 +224,38 @@ void main() {
       expect(find.byIcon(Icons.close), findsOneWidget);
     });
 
-    testWidgets('should remove excluded ingredient when close button is pressed', (
-      WidgetTester tester,
-    ) async {
+    testWidgets(
+      'should remove excluded ingredient when close button is pressed',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
+        );
+
+        // Add an ingredient
+        await tester.enterText(find.byType(TextFormField), 'nuts');
+        await tester.tap(find.byIcon(Icons.add).at(1));
+        await tester.pump();
+
+        expect(find.text('nuts'), findsOneWidget);
+
+        // Remove the ingredient
+        await tester.tap(find.byIcon(Icons.close));
+        await tester.pump();
+
+        // Should no longer show the chip
+        expect(find.text('nuts'), findsNothing);
+      },
+    );
+
+    testWidgets('should render generate button', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: GenerateMealPlanPage())),
       );
 
-      // Add an ingredient
-      await tester.enterText(find.byType(TextFormField), 'nuts');
-      await tester.tap(find.byIcon(Icons.add).at(1));
-      await tester.pump();
-
-      expect(find.text('nuts'), findsOneWidget);
-
-      // Remove the ingredient
-      await tester.tap(find.byIcon(Icons.close));
-      await tester.pump();
-
-      // Should no longer show the chip
-      expect(find.text('nuts'), findsNothing);
-    });
-
-    testWidgets('should render generate button', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
-        ),
+      expect(
+        find.widgetWithText(ElevatedButton, 'Generate Meal Plan'),
+        findsOneWidget,
       );
-
-      expect(find.widgetWithText(ElevatedButton, 'Generate Meal Plan'), findsOneWidget);
     });
   });
 }

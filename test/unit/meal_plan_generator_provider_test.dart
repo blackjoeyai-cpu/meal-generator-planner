@@ -47,7 +47,7 @@ void main() {
         includeFavorites: true,
         pinnedFavoriteIds: [],
       );
-      
+
       provider.state = provider.state.copyWith(
         isLoading: true,
         errorMessage: 'Test error',
@@ -66,16 +66,21 @@ void main() {
       expect(state.lastRequest, null);
     });
 
-    test('regenerateMealPlan should fail when no last request is available', () async {
-      // Arrange
-      final provider = container.read(mealPlanGeneratorProvider.notifier);
+    test(
+      'regenerateMealPlan should fail when no last request is available',
+      () async {
+        // Arrange
+        final provider = container.read(mealPlanGeneratorProvider.notifier);
 
-      // Act
-      await provider.regenerateMealPlan();
+        // Act
+        await provider.regenerateMealPlan();
 
-      // Assert
-      expect(container.read(mealPlanGeneratorProvider).errorMessage, 
-        'No previous generation request found');
-    });
+        // Assert
+        expect(
+          container.read(mealPlanGeneratorProvider).errorMessage,
+          'No previous generation request found',
+        );
+      },
+    );
   });
 }

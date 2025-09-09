@@ -10,9 +10,9 @@ import 'package:meal_generator_planner/core/utils/id_generator.dart';
 /// Exception thrown when there are insufficient meals in the database
 class InsufficientMealsException implements Exception {
   final String message;
-  
+
   InsufficientMealsException(this.message);
-  
+
   @override
   String toString() => 'InsufficientMealsException: $message';
 }
@@ -20,9 +20,9 @@ class InsufficientMealsException implements Exception {
 /// Exception thrown when parameters are over-constrained
 class OverConstrainedParametersException implements Exception {
   final String message;
-  
+
   OverConstrainedParametersException(this.message);
-  
+
   @override
   String toString() => 'OverConstrainedParametersException: $message';
 }
@@ -30,9 +30,9 @@ class OverConstrainedParametersException implements Exception {
 /// Exception thrown when the generation algorithm fails
 class GenerationAlgorithmException implements Exception {
   final String message;
-  
+
   GenerationAlgorithmException(this.message);
-  
+
   @override
   String toString() => 'GenerationAlgorithmException: $message';
 }
@@ -41,13 +41,13 @@ class GenerationAlgorithmException implements Exception {
 class MealGenerationService {
   final MealRepository _mealRepository;
 
-  MealGenerationService({
-    required MealRepository mealRepository,
-  }) : _mealRepository = mealRepository;
+  MealGenerationService({required MealRepository mealRepository})
+    : _mealRepository = mealRepository;
 
   /// Generate a weekly meal plan based on the provided request parameters
   Future<List<MealPlan>> generateWeeklyMealPlan(
-      MealPlanGenerationRequest request) async {
+    MealPlanGenerationRequest request,
+  ) async {
     try {
       // Load available meals from repository
       List<Meal> availableMeals = await _loadAvailableMeals(request);
@@ -61,8 +61,9 @@ class MealGenerationService {
       // Validate that we have enough meals
       if (!_validateMealAvailability(availableMeals)) {
         throw InsufficientMealsException(
-            'Insufficient meals in database. Please add more meals or relax constraints. '
-            'Current meal count: ${availableMeals.length}, Required: 21');
+          'Insufficient meals in database. Please add more meals or relax constraints. '
+          'Current meal count: ${availableMeals.length}, Required: 21',
+        );
       }
 
       // Generate daily meal plans for the week
@@ -79,7 +80,7 @@ class MealGenerationService {
           e is GenerationAlgorithmException) {
         rethrow;
       }
-      
+
       // Wrap unknown exceptions
       throw GenerationAlgorithmException('Failed to generate meal plan: $e');
     }
@@ -87,13 +88,16 @@ class MealGenerationService {
 
   /// Load available meals from the repository
   Future<List<Meal>> _loadAvailableMeals(
-      MealPlanGenerationRequest request) async {
+    MealPlanGenerationRequest request,
+  ) async {
     // Get all meals from repository
     List<Meal> meals = await _mealRepository.getAllMeals();
 
     // Remove meals used in the previous week
     if (request.previousWeekMealIds.isNotEmpty) {
-      meals.removeWhere((meal) => request.previousWeekMealIds.contains(meal.id));
+      meals.removeWhere(
+        (meal) => request.previousWeekMealIds.contains(meal.id),
+      );
     }
 
     return meals;
@@ -101,7 +105,9 @@ class MealGenerationService {
 
   /// Apply filters based on request parameters
   List<Meal> _applyFilters(
-      List<Meal> meals, MealPlanGenerationRequest request) {
+    List<Meal> meals,
+    MealPlanGenerationRequest request,
+  ) {
     // Filter by dietary restrictions
     if (request.restrictions.isNotEmpty) {
       meals = meals.where((meal) {
@@ -109,7 +115,9 @@ class MealGenerationService {
         if (meal.dietaryTags.isEmpty) return true;
 
         // Check if all meal tags are compatible with restrictions
-        return meal.dietaryTags.every((tag) => request.restrictions.contains(tag));
+        return meal.dietaryTags.every(
+          (tag) => request.restrictions.contains(tag),
+        );
       }).toList();
     }
 
@@ -117,8 +125,11 @@ class MealGenerationService {
     if (request.excludedIngredients.isNotEmpty) {
       meals = meals.where((meal) {
         return !meal.ingredients.any(
-            (ingredient) => request.excludedIngredients.any((excluded) =>
-                ingredient.toLowerCase().contains(excluded.toLowerCase())));
+          (ingredient) => request.excludedIngredients.any(
+            (excluded) =>
+                ingredient.toLowerCase().contains(excluded.toLowerCase()),
+          ),
+        );
       }).toList();
     }
 
@@ -127,28 +138,35 @@ class MealGenerationService {
 
   /// Check if parameters are over-constrained
   void _checkForOverConstrainedParameters(
-      List<Meal> meals, MealPlanGenerationRequest request) {
+    List<Meal> meals,
+    MealPlanGenerationRequest request,
+  ) {
     // Check if we have enough meals in each category
-    final breakfastMeals = meals.where((meal) => meal.category == 'breakfast').length;
+    final breakfastMeals = meals
+        .where((meal) => meal.category == 'breakfast')
+        .length;
     final lunchMeals = meals.where((meal) => meal.category == 'lunch').length;
     final dinnerMeals = meals.where((meal) => meal.category == 'dinner').length;
-    
+
     if (breakfastMeals < 7) {
       throw OverConstrainedParametersException(
-          'Not enough breakfast meals available (found: $breakfastMeals, needed: 7). '
-          'Please relax dietary restrictions or add more breakfast meals.');
+        'Not enough breakfast meals available (found: $breakfastMeals, needed: 7). '
+        'Please relax dietary restrictions or add more breakfast meals.',
+      );
     }
-    
+
     if (lunchMeals < 7) {
       throw OverConstrainedParametersException(
-          'Not enough lunch meals available (found: $lunchMeals, needed: 7). '
-          'Please relax dietary restrictions or add more lunch meals.');
+        'Not enough lunch meals available (found: $lunchMeals, needed: 7). '
+        'Please relax dietary restrictions or add more lunch meals.',
+      );
     }
-    
+
     if (dinnerMeals < 7) {
       throw OverConstrainedParametersException(
-          'Not enough dinner meals available (found: $dinnerMeals, needed: 7). '
-          'Please relax dietary restrictions or add more dinner meals.');
+        'Not enough dinner meals available (found: $dinnerMeals, needed: 7). '
+        'Please relax dietary restrictions or add more dinner meals.',
+      );
     }
   }
 
@@ -171,8 +189,10 @@ class MealGenerationService {
 
     // Generate plan for each day of the week
     for (int i = 0; i < 7; i++) {
-      final DateTime currentDate =
-          DateUtils.addDaysToDate(request.weekStartDate, i);
+      final DateTime currentDate = DateUtils.addDaysToDate(
+        request.weekStartDate,
+        i,
+      );
 
       // Get pinned favorites for this day if any
       final List<Meal> pinnedFavorites = await _getPinnedFavorites(
@@ -197,7 +217,7 @@ class MealGenerationService {
 
       // Remove used meals from working pool to avoid repetition
       workingMeals.removeWhere((meal) => usedMeals.contains(meal));
-      
+
       // If we're running low on meals, reset the working pool
       if (workingMeals.length < 5) {
         workingMeals = List.from(availableMeals);
@@ -211,7 +231,9 @@ class MealGenerationService {
 
   /// Get pinned favorites for a specific date
   Future<List<Meal>> _getPinnedFavorites(
-      List<String> pinnedFavoriteIds, DateTime date) async {
+    List<String> pinnedFavoriteIds,
+    DateTime date,
+  ) async {
     final List<Meal> pinnedFavorites = [];
 
     for (final id in pinnedFavoriteIds) {
@@ -253,47 +275,26 @@ class MealGenerationService {
     }
 
     // Generate breakfast if not pinned
-    breakfast ??= _selectMeal(
-      availableMeals,
-      'breakfast',
-      request,
-      usedMeals,
-    );
+    breakfast ??= _selectMeal(availableMeals, 'breakfast', request, usedMeals);
 
     // Generate lunch if not pinned
-    lunch ??= _selectMeal(
-      availableMeals,
-      'lunch',
-      request,
-      usedMeals,
-    );
+    lunch ??= _selectMeal(availableMeals, 'lunch', request, usedMeals);
 
     // Generate dinner if not pinned
-    dinner ??= _selectMeal(
-      availableMeals,
-      'dinner',
-      request,
-      usedMeals,
-    );
+    dinner ??= _selectMeal(availableMeals, 'dinner', request, usedMeals);
 
     // Generate snacks (0-2 per day, max 200 calories each)
     final int snackCount = Random().nextInt(3); // 0, 1, or 2 snacks
     for (int i = 0; i < snackCount; i++) {
-      final snack = _selectMeal(
-        availableMeals,
-        'snack',
-        request,
-        usedMeals,
-      );
-      
+      final snack = _selectMeal(availableMeals, 'snack', request, usedMeals);
+
       // Ensure snack is under 200 calories
       if (snack.calories <= 200) {
         snacks.add(snack);
       } else {
         // Find a lower calorie snack
         final lowCalorieSnack = availableMeals
-            .where((meal) =>
-                meal.category == 'snack' && meal.calories <= 200)
+            .where((meal) => meal.category == 'snack' && meal.calories <= 200)
             .toList();
         if (lowCalorieSnack.isNotEmpty) {
           snacks.add(lowCalorieSnack[Random().nextInt(lowCalorieSnack.length)]);
@@ -326,7 +327,9 @@ class MealGenerationService {
 
     // If no meals in this category, throw an exception
     if (categoryMeals.isEmpty) {
-      throw GenerationAlgorithmException('No meals available for category: $category');
+      throw GenerationAlgorithmException(
+        'No meals available for category: $category',
+      );
     }
 
     // Apply weighted selection algorithm

@@ -14,8 +14,6 @@ import 'package:mockito/annotations.dart';
 
 // Generate mocks
 @GenerateMocks([MealRepository, MealPlanRepository])
-
-
 // Mock implementation of MealRepository for testing
 class MockMealRepositoryImpl implements MealRepository {
   @override
@@ -25,55 +23,63 @@ class MockMealRepositoryImpl implements MealRepository {
   Future<List<Meal>> getAllMeals() async {
     // Return a list of meals for testing (enough for a week)
     List<Meal> meals = [];
-    
+
     // Add 10 breakfast meals
     for (int i = 0; i < 10; i++) {
-      meals.add(Meal(
-        id: 'breakfast_$i',
-        name: 'Test Breakfast $i',
-        ingredients: ['ingredient_$i'],
-        category: 'breakfast',
-        calories: 300 + (i * 10),
-        createdAt: DateTime.now(),
-      ));
+      meals.add(
+        Meal(
+          id: 'breakfast_$i',
+          name: 'Test Breakfast $i',
+          ingredients: ['ingredient_$i'],
+          category: 'breakfast',
+          calories: 300 + (i * 10),
+          createdAt: DateTime.now(),
+        ),
+      );
     }
-    
+
     // Add 10 lunch meals
     for (int i = 0; i < 10; i++) {
-      meals.add(Meal(
-        id: 'lunch_$i',
-        name: 'Test Lunch $i',
-        ingredients: ['ingredient_$i'],
-        category: 'lunch',
-        calories: 400 + (i * 10),
-        createdAt: DateTime.now(),
-      ));
+      meals.add(
+        Meal(
+          id: 'lunch_$i',
+          name: 'Test Lunch $i',
+          ingredients: ['ingredient_$i'],
+          category: 'lunch',
+          calories: 400 + (i * 10),
+          createdAt: DateTime.now(),
+        ),
+      );
     }
-    
+
     // Add 10 dinner meals
     for (int i = 0; i < 10; i++) {
-      meals.add(Meal(
-        id: 'dinner_$i',
-        name: 'Test Dinner $i',
-        ingredients: ['ingredient_$i'],
-        category: 'dinner',
-        calories: 500 + (i * 10),
-        createdAt: DateTime.now(),
-      ));
+      meals.add(
+        Meal(
+          id: 'dinner_$i',
+          name: 'Test Dinner $i',
+          ingredients: ['ingredient_$i'],
+          category: 'dinner',
+          calories: 500 + (i * 10),
+          createdAt: DateTime.now(),
+        ),
+      );
     }
-    
+
     // Add 10 snack meals
     for (int i = 0; i < 10; i++) {
-      meals.add(Meal(
-        id: 'snack_$i',
-        name: 'Test Snack $i',
-        ingredients: ['ingredient_$i'],
-        category: 'snack',
-        calories: 150 + (i * 10),
-        createdAt: DateTime.now(),
-      ));
+      meals.add(
+        Meal(
+          id: 'snack_$i',
+          name: 'Test Snack $i',
+          ingredients: ['ingredient_$i'],
+          category: 'snack',
+          calories: 150 + (i * 10),
+          createdAt: DateTime.now(),
+        ),
+      );
     }
-    
+
     return meals;
   }
 
@@ -121,7 +127,10 @@ class MockMealPlanRepositoryImpl implements MealPlanRepository {
   Future<MealPlan?> getMealPlanByDate(DateTime date) async => null;
 
   @override
-  Future<List<MealPlan>> getMealPlansInRange(DateTime startDate, DateTime endDate) async => [];
+  Future<List<MealPlan>> getMealPlansInRange(
+    DateTime startDate,
+    DateTime endDate,
+  ) async => [];
 
   @override
   Future<List<MealPlan>> getCurrentWeekMealPlans() async => [];
@@ -137,7 +146,8 @@ class MockMealPlanRepositoryImpl implements MealPlanRepository {
 
   // Added missing implementations
   @override
-  Future<List<MealPlan>> getMealPlansForWeek(DateTime weekStartDate) async => [];
+  Future<List<MealPlan>> getMealPlansForWeek(DateTime weekStartDate) async =>
+      [];
 
   @override
   Future<MealPlan?> getMostRecentMealPlan() async => null;
@@ -148,7 +158,9 @@ class MockMealPlanRepositoryImpl implements MealPlanRepository {
 
 void main() {
   group('Meal Plan Regeneration Integration Tests', () {
-    testWidgets('User can regenerate meal plan if unsatisfied', (WidgetTester tester) async {
+    testWidgets('User can regenerate meal plan if unsatisfied', (
+      WidgetTester tester,
+    ) async {
       // Create a widget tree with the provider scope
       await tester.pumpWidget(
         ProviderScope(
@@ -162,9 +174,7 @@ void main() {
               );
             }),
           ],
-          child: const MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
+          child: const MaterialApp(home: GenerateMealPlanPage()),
         ),
       );
 
@@ -176,7 +186,10 @@ void main() {
       expect(find.text('Configure your meal plan'), findsOneWidget);
 
       // Tap the generate button (use widgetWithText to be more specific)
-      final generateButton = find.widgetWithText(ElevatedButton, 'Generate Meal Plan');
+      final generateButton = find.widgetWithText(
+        ElevatedButton,
+        'Generate Meal Plan',
+      );
       expect(generateButton, findsOneWidget);
       await tester.tap(generateButton);
       await tester.pump();
@@ -203,7 +216,9 @@ void main() {
       expect(find.text('Your Meal Plan'), findsOneWidget);
     });
 
-    testWidgets('Regenerate button works from error state', (WidgetTester tester) async {
+    testWidgets('Regenerate button works from error state', (
+      WidgetTester tester,
+    ) async {
       // Create a widget tree with the provider scope
       await tester.pumpWidget(
         ProviderScope(
@@ -213,9 +228,7 @@ void main() {
               return MockMealPlanGeneratorNotifier();
             }),
           ],
-          child: const MaterialApp(
-            home: GenerateMealPlanPage(),
-          ),
+          child: const MaterialApp(home: GenerateMealPlanPage()),
         ),
       );
 
@@ -223,7 +236,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Tap the generate button (use widgetWithText to be more specific)
-      final generateButton = find.widgetWithText(ElevatedButton, 'Generate Meal Plan');
+      final generateButton = find.widgetWithText(
+        ElevatedButton,
+        'Generate Meal Plan',
+      );
       await tester.tap(generateButton);
       await tester.pumpAndSettle();
 
@@ -245,10 +261,10 @@ void main() {
 // Mock notifier for testing error scenarios
 class MockMealPlanGeneratorNotifier extends MealPlanGeneratorNotifier {
   MockMealPlanGeneratorNotifier()
-      : super(
-          mealRepository: MockMealRepositoryImpl(),
-          mealPlanRepository: MockMealPlanRepositoryImpl(),
-        );
+    : super(
+        mealRepository: MockMealRepositoryImpl(),
+        mealPlanRepository: MockMealPlanRepositoryImpl(),
+      );
 
   @override
   Future<void> generateMealPlan(MealPlanGenerationRequest request) async {
@@ -263,7 +279,9 @@ class MockMealPlanGeneratorNotifier extends MealPlanGeneratorNotifier {
   @override
   Future<void> regenerateMealPlan() async {
     if (state.lastRequest == null) {
-      state = state.copyWith(errorMessage: 'No previous generation request found');
+      state = state.copyWith(
+        errorMessage: 'No previous generation request found',
+      );
       return;
     }
 
