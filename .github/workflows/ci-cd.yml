@@ -389,7 +389,7 @@ jobs:
           echo "WEB_ARTIFACT_NAME=web-build-$SANITIZED_REF_NAME" >> $GITHUB_ENV
 
       - name: Download Web Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: ${{ env.WEB_ARTIFACT_NAME }}
           path: ./build/web/
