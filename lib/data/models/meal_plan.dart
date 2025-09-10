@@ -1,78 +1,85 @@
 import 'package:hive/hive.dart';
-import 'package:meal_generator_planner/data/models/meal.dart';
+import 'package:meal_generator_planner/data/models/daily_meals.dart';
+import 'package:meal_generator_planner/data/models/enums.dart';
 
-/// Data model for a daily meal plan
+part 'meal_plan.g.dart';
+
+@HiveType(typeId: 4)
+class MealPlanGenerationRequest extends HiveObject {
+  @HiveField(0)
+  final DateTime weekStartDate;
+
+  @HiveField(1)
+  final int numberOfPeople;
+
+  @HiveField(2)
+  final List<DietaryTag> restrictions;
+
+  @HiveField(3)
+  final List<String> excludedIngredients;
+
+  @HiveField(4)
+  final bool includeFavorites;
+
+  @HiveField(5)
+  final List<String> pinnedFavoriteIds;
+
+  MealPlanGenerationRequest({
+    required this.weekStartDate,
+    required this.numberOfPeople,
+    this.restrictions = const [],
+    this.excludedIngredients = const [],
+    this.includeFavorites = true,
+    this.pinnedFavoriteIds = const [],
+  });
+}
+
 @HiveType(typeId: 1)
 class MealPlan extends HiveObject {
   @HiveField(0)
-  final DateTime date;
+  final String id; // Format: "2024-W01"
 
   @HiveField(1)
-  final Meal? breakfast;
+  final DateTime weekStartDate;
 
   @HiveField(2)
-  final Meal? lunch;
+  final Map<String, DailyMeals> dailyMeals; // Key: ISO 8601 date string
 
   @HiveField(3)
-  final Meal? dinner;
+  final DateTime generatedAt;
 
   @HiveField(4)
-  final List<Meal> snacks;
+  final bool isActive;
 
   @HiveField(5)
-  final String id;
+  final MealPlanGenerationRequest generationParameters;
 
   MealPlan({
     required this.id,
-    required this.date,
-    this.breakfast,
-    this.lunch,
-    this.dinner,
-    this.snacks = const [],
+    required this.weekStartDate,
+    required this.dailyMeals,
+    required this.generatedAt,
+    required this.generationParameters,
+    this.isActive = false,
   });
 
-  /// Creates a copy of this meal plan with the given fields replaced with new values
   MealPlan copyWith({
     String? id,
-    DateTime? date,
-    Meal? breakfast,
-    Meal? lunch,
-    Meal? dinner,
-    List<Meal>? snacks,
+    DateTime? weekStartDate,
+    Map<String, DailyMeals>? dailyMeals,
+    DateTime? generatedAt,
+    bool? isActive,
+    MealPlanGenerationRequest? generationParameters,
   }) {
     return MealPlan(
       id: id ?? this.id,
-      date: date ?? this.date,
-      breakfast: breakfast ?? this.breakfast,
-      lunch: lunch ?? this.lunch,
-      dinner: dinner ?? this.dinner,
-      snacks: snacks ?? this.snacks,
+      weekStartDate: weekStartDate ?? this.weekStartDate,
+      dailyMeals: dailyMeals ?? this.dailyMeals,
+      generatedAt: generatedAt ?? this.generatedAt,
+      isActive: isActive ?? this.isActive,
+      generationParameters: generationParameters ?? this.generationParameters,
     );
   }
-
-  /// Get all meals in this plan (non-null meals + snacks)
-  List<Meal> get allMeals {
-    final meals = <Meal>[];
-    if (breakfast != null) meals.add(breakfast!);
-    if (lunch != null) meals.add(lunch!);
-    if (dinner != null) meals.add(dinner!);
-    meals.addAll(snacks);
-    return meals;
-  }
-
-  /// Calculate total calories for the day
-  int get totalCalories {
-    return allMeals.fold(0, (sum, meal) => sum + meal.calories);
-  }
-
-  /// Check if the meal plan is complete (has all main meals)
-  bool get isComplete {
-    return breakfast != null && lunch != null && dinner != null;
-  }
-
-  /// JSON serialization - to be implemented when code generation is set up
-  // factory MealPlan.fromJson(Map<String, dynamic> json) => _$MealPlanFromJson(json);
-  // Map<String, dynamic> toJson() => _$MealPlanToJson(this);
 
   @override
   bool operator ==(Object other) {
@@ -85,6 +92,6 @@ class MealPlan extends HiveObject {
 
   @override
   String toString() {
-    return 'MealPlan(id: $id, date: $date, totalCalories: $totalCalories)';
+    return 'MealPlan(id: $id, weekStartDate: $weekStartDate)';
   }
 }

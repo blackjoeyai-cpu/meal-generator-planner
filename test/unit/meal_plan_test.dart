@@ -1,107 +1,99 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meal_generator_planner/data/models/meal_plan.dart';
+import 'package:meal_generator_planner/data/models/daily_meals.dart';
+import 'package:meal_generator_planner/data/models/enums.dart';
 import 'package:meal_generator_planner/data/models/meal.dart';
+import 'package:meal_generator_planner/data/models/meal_plan.dart';
 
 void main() {
   group('MealPlan Model Tests', () {
-    final testDate = DateTime(2024, 1, 15);
-
-    final testBreakfast = Meal(
-      id: 'breakfast_id',
-      name: 'Oatmeal',
-      ingredients: ['oats', 'milk'],
-      category: 'breakfast',
-      calories: 300,
+    final testStartDate = DateTime(2024, 1, 15);
+    final dummyMeal = Meal(
+      id: 'meal_id',
+      name: 'Test Meal',
+      description: 'Test description',
+      ingredients: [],
+      category: MealCategory.breakfast,
+      estimatedCalories: 100,
+      preparationTimeMinutes: 10,
+      difficulty: DifficultyLevel.easy,
+      dietaryTags: [],
+      imageAssetPath: '',
+      cookingInstructions: '',
+      defaultServings: 1,
+      createdAt: DateTime.now(),
     );
 
-    final testLunch = Meal(
-      id: 'lunch_id',
-      name: 'Sandwich',
-      ingredients: ['bread', 'ham'],
-      category: 'lunch',
-      calories: 450,
+    final dailyMeals = DailyMeals(
+      breakfast: dummyMeal,
+      lunch: dummyMeal,
+      dinner: dummyMeal,
     );
 
-    final testDinner = Meal(
-      id: 'dinner_id',
-      name: 'Pasta',
-      ingredients: ['pasta', 'sauce'],
-      category: 'dinner',
-      calories: 600,
+    final generationRequest = MealPlanGenerationRequest(
+      weekStartDate: testStartDate,
+      numberOfPeople: 2,
     );
 
     test('should create a meal plan with required fields', () {
       final mealPlan = MealPlan(
         id: 'plan_id',
-        date: testDate,
-        breakfast: testBreakfast,
-        lunch: testLunch,
-        dinner: testDinner,
+        weekStartDate: testStartDate,
+        dailyMeals: {'2024-01-15': dailyMeals},
+        generatedAt: DateTime.now(),
+        generationParameters: generationRequest,
       );
 
       expect(mealPlan.id, 'plan_id');
-      expect(mealPlan.date, testDate);
-      expect(mealPlan.breakfast, testBreakfast);
-      expect(mealPlan.lunch, testLunch);
-      expect(mealPlan.dinner, testDinner);
-      expect(mealPlan.snacks, isEmpty);
+      expect(mealPlan.weekStartDate, testStartDate);
+      expect(mealPlan.dailyMeals.length, 1);
+      expect(mealPlan.isActive, false); // default value
     });
 
-    test('should calculate total calories correctly', () {
-      final mealPlan = MealPlan(
+    test('should create a copy with updated values', () {
+      final originalMealPlan = MealPlan(
         id: 'plan_id',
-        date: testDate,
-        breakfast: testBreakfast,
-        lunch: testLunch,
-        dinner: testDinner,
+        weekStartDate: testStartDate,
+        dailyMeals: {'2024-01-15': dailyMeals},
+        generatedAt: DateTime.now(),
+        generationParameters: generationRequest,
       );
 
-      expect(mealPlan.totalCalories, 1350); // 300 + 450 + 600
+      final updatedMealPlan = originalMealPlan.copyWith(
+        isActive: true,
+      );
+
+      expect(updatedMealPlan.id, 'plan_id');
+      expect(updatedMealPlan.isActive, true);
     });
 
-    test('should check if meal plan is complete', () {
-      final completeMealPlan = MealPlan(
-        id: 'complete_plan',
-        date: testDate,
-        breakfast: testBreakfast,
-        lunch: testLunch,
-        dinner: testDinner,
+    test('should have correct equality comparison', () {
+      final now = DateTime.now();
+      final plan1 = MealPlan(
+        id: 'same_id',
+        weekStartDate: testStartDate,
+        dailyMeals: {},
+        generatedAt: now,
+        generationParameters: generationRequest,
       );
 
-      final incompleteMealPlan = MealPlan(
-        id: 'incomplete_plan',
-        date: testDate,
-        breakfast: testBreakfast,
-        lunch: testLunch,
-        // dinner is null
+      final plan2 = MealPlan(
+        id: 'same_id',
+        weekStartDate: testStartDate.add(const Duration(days: 7)), // different date
+        dailyMeals: {},
+        generatedAt: now,
+        generationParameters: generationRequest,
       );
 
-      expect(completeMealPlan.isComplete, true);
-      expect(incompleteMealPlan.isComplete, false);
-    });
-
-    test('should get all meals including snacks', () {
-      final snack = Meal(
-        id: 'snack_id',
-        name: 'Apple',
-        ingredients: ['apple'],
-        category: 'snack',
-        calories: 80,
+      final plan3 = MealPlan(
+        id: 'different_id',
+        weekStartDate: testStartDate,
+        dailyMeals: {},
+        generatedAt: now,
+        generationParameters: generationRequest,
       );
 
-      final mealPlan = MealPlan(
-        id: 'plan_id',
-        date: testDate,
-        breakfast: testBreakfast,
-        lunch: testLunch,
-        snacks: [snack],
-      );
-
-      final allMeals = mealPlan.allMeals;
-      expect(allMeals.length, 3); // breakfast, lunch, snack
-      expect(allMeals.contains(testBreakfast), true);
-      expect(allMeals.contains(testLunch), true);
-      expect(allMeals.contains(snack), true);
+      expect(plan1, equals(plan2)); // same id
+      expect(plan1, isNot(equals(plan3))); // different id
     });
   });
 }

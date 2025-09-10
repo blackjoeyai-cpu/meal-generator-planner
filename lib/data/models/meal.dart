@@ -1,6 +1,9 @@
 import 'package:hive/hive.dart';
+import 'package:meal_generator_planner/data/models/enums.dart';
+import 'package:meal_generator_planner/data/models/ingredient.dart';
 
-/// Data model for a meal
+part 'meal.g.dart';
+
 @HiveType(typeId: 0)
 class Meal extends HiveObject {
   @HiveField(0)
@@ -10,66 +13,103 @@ class Meal extends HiveObject {
   final String name;
 
   @HiveField(2)
-  final List<String> ingredients;
+  final String description;
 
   @HiveField(3)
-  final String category; // e.g. breakfast, lunch, dinner, snack
+  final List<Ingredient> ingredients;
 
   @HiveField(4)
-  final int calories;
+  final MealCategory category;
 
   @HiveField(5)
-  final String notes;
+  final int estimatedCalories;
 
   @HiveField(6)
-  final String? imageUrl;
+  final int preparationTimeMinutes;
 
   @HiveField(7)
-  final int preparationTime; // in minutes
+  final DifficultyLevel difficulty;
 
   @HiveField(8)
+  final List<DietaryTag> dietaryTags;
+
+  @HiveField(9)
+  final String imageAssetPath;
+
+  @HiveField(10)
+  final String cookingInstructions;
+
+  @HiveField(11)
+  final int defaultServings;
+
+  @HiveField(12)
+  final DateTime createdAt;
+
+  @HiveField(13)
   final bool isFavorite;
+
+  @HiveField(14)
+  final bool isCustomUserMeal;
+
+  @HiveField(15)
+  final Map<String, String> nutritionFacts;
 
   Meal({
     required this.id,
     required this.name,
+    required this.description,
     required this.ingredients,
     required this.category,
-    this.calories = 0,
-    this.notes = '',
-    this.imageUrl,
-    this.preparationTime = 0,
+    required this.estimatedCalories,
+    required this.preparationTimeMinutes,
+    required this.difficulty,
+    required this.dietaryTags,
+    required this.imageAssetPath,
+    required this.cookingInstructions,
+    required this.defaultServings,
+    required this.createdAt,
     this.isFavorite = false,
+    this.isCustomUserMeal = false,
+    this.nutritionFacts = const {},
   });
 
-  /// Creates a copy of this meal with the given fields replaced with new values
   Meal copyWith({
     String? id,
     String? name,
-    List<String>? ingredients,
-    String? category,
-    int? calories,
-    String? notes,
-    String? imageUrl,
-    int? preparationTime,
+    String? description,
+    List<Ingredient>? ingredients,
+    MealCategory? category,
+    int? estimatedCalories,
+    int? preparationTimeMinutes,
+    DifficultyLevel? difficulty,
+    List<DietaryTag>? dietaryTags,
+    String? imageAssetPath,
+    String? cookingInstructions,
+    int? defaultServings,
+    DateTime? createdAt,
     bool? isFavorite,
+    bool? isCustomUserMeal,
+    Map<String, String>? nutritionFacts,
   }) {
     return Meal(
       id: id ?? this.id,
       name: name ?? this.name,
+      description: description ?? this.description,
       ingredients: ingredients ?? this.ingredients,
       category: category ?? this.category,
-      calories: calories ?? this.calories,
-      notes: notes ?? this.notes,
-      imageUrl: imageUrl ?? this.imageUrl,
-      preparationTime: preparationTime ?? this.preparationTime,
+      estimatedCalories: estimatedCalories ?? this.estimatedCalories,
+      preparationTimeMinutes: preparationTimeMinutes ?? this.preparationTimeMinutes,
+      difficulty: difficulty ?? this.difficulty,
+      dietaryTags: dietaryTags ?? this.dietaryTags,
+      imageAssetPath: imageAssetPath ?? this.imageAssetPath,
+      cookingInstructions: cookingInstructions ?? this.cookingInstructions,
+      defaultServings: defaultServings ?? this.defaultServings,
+      createdAt: createdAt ?? this.createdAt,
       isFavorite: isFavorite ?? this.isFavorite,
+      isCustomUserMeal: isCustomUserMeal ?? this.isCustomUserMeal,
+      nutritionFacts: nutritionFacts ?? this.nutritionFacts,
     );
   }
-
-  /// JSON serialization - to be implemented when code generation is set up
-  // factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
-  // Map<String, dynamic> toJson() => _$MealToJson(this);
 
   @override
   bool operator ==(Object other) {
@@ -82,6 +122,6 @@ class Meal extends HiveObject {
 
   @override
   String toString() {
-    return 'Meal(id: $id, name: $name, category: $category, calories: $calories)';
+    return 'Meal(id: $id, name: $name, category: $category)';
   }
 }
