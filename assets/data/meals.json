@@ -2,46 +2,418 @@
   {
     "id": "meal_001",
     "name": "Grilled Chicken Salad",
+    "description": "A light and healthy salad with grilled chicken breast, perfect for a nutritious lunch.",
     "ingredients": [
-      "Chicken breast",
-      "Mixed greens",
-      "Cherry tomatoes",
-      "Cucumber",
-      "Olive oil",
-      "Lemon juice"
+      {"name": "Chicken breast", "quantity": 1, "unit": "piece", "category": "meat"},
+      {"name": "Mixed greens", "quantity": 2, "unit": "cups", "category": "produce"},
+      {"name": "Cherry tomatoes", "quantity": 0.5, "unit": "cups", "category": "produce"},
+      {"name": "Cucumber", "quantity": 0.5, "unit": "piece", "category": "produce"},
+      {"name": "Olive oil", "quantity": 1, "unit": "tbsp", "category": "pantry"},
+      {"name": "Lemon juice", "quantity": 1, "unit": "tbsp", "category": "produce"}
     ],
     "category": "lunch",
-    "calories": 350,
-    "notes": "High protein, low carb meal perfect for lunch"
+    "estimatedCalories": 350,
+    "preparationTimeMinutes": 20,
+    "difficulty": "easy",
+    "dietaryTags": ["lowCarb", "glutenFree"],
+    "imageAssetPath": "assets/images/meal_001.jpg",
+    "cookingInstructions": "1. Season and grill chicken breast until cooked through. 2. Chop vegetables. 3. Slice the chicken. 4. Combine all ingredients in a bowl and drizzle with olive oil and lemon juice.",
+    "defaultServings": 1,
+    "isFavorite": true
   },
   {
-    "id": "meal_002", 
+    "id": "meal_002",
     "name": "Overnight Oats",
+    "description": "A quick and easy breakfast, prepared the night before for a grab-and-go morning.",
     "ingredients": [
-      "Rolled oats",
-      "Milk",
-      "Yogurt",
-      "Berries",
-      "Honey",
-      "Chia seeds"
+      {"name": "Rolled oats", "quantity": 0.5, "unit": "cups", "category": "pantry"},
+      {"name": "Almond milk", "quantity": 0.5, "unit": "cups", "category": "dairy"},
+      {"name": "Chia seeds", "quantity": 1, "unit": "tbsp", "category": "pantry"},
+      {"name": "Mixed berries", "quantity": 0.5, "unit": "cups", "category": "frozen"},
+      {"name": "Maple syrup", "quantity": 1, "unit": "tsp", "category": "pantry", "isOptional": true}
     ],
     "category": "breakfast",
-    "calories": 280,
-    "notes": "Prepare the night before for a quick breakfast"
+    "estimatedCalories": 280,
+    "preparationTimeMinutes": 5,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian", "vegan", "dairyFree"],
+    "imageAssetPath": "assets/images/meal_002.jpg",
+    "cookingInstructions": "1. Combine all ingredients in a jar. 2. Shake well to mix. 3. Refrigerate overnight. 4. Top with fresh berries before serving.",
+    "defaultServings": 1
   },
   {
     "id": "meal_003",
-    "name": "Pasta Marinara",
+    "name": "Spaghetti Bolognese",
+    "description": "A classic Italian pasta dish with a rich and savory meat sauce.",
     "ingredients": [
-      "Pasta",
-      "Tomato sauce",
-      "Garlic",
-      "Basil",
-      "Parmesan cheese",
-      "Olive oil"
+      {"name": "Spaghetti", "quantity": 100, "unit": "g", "category": "pantry"},
+      {"name": "Ground beef", "quantity": 150, "unit": "g", "category": "meat"},
+      {"name": "Tomato sauce", "quantity": 1, "unit": "cup", "category": "pantry"},
+      {"name": "Onion", "quantity": 0.5, "unit": "piece", "category": "produce"},
+      {"name": "Garlic", "quantity": 1, "unit": "clove", "category": "produce"}
     ],
     "category": "dinner",
-    "calories": 420,
-    "notes": "Classic Italian comfort food"
+    "estimatedCalories": 600,
+    "preparationTimeMinutes": 45,
+    "difficulty": "medium",
+    "dietaryTags": [],
+    "imageAssetPath": "assets/images/meal_003.jpg",
+    "cookingInstructions": "1. Cook pasta according to package directions. 2. Brown ground beef with chopped onion and garlic. 3. Drain fat, add tomato sauce, and simmer for 20 minutes. 4. Serve sauce over pasta.",
+    "defaultServings": 2
+  },
+  {
+    "id": "meal_004",
+    "name": "Lentil Soup",
+    "description": "A hearty and nutritious soup, perfect for a cold day and packed with plant-based protein.",
+    "ingredients": [
+      {"name": "Red lentils", "quantity": 1, "unit": "cup", "category": "pantry"},
+      {"name": "Carrots", "quantity": 2, "unit": "pieces", "category": "produce"},
+      {"name": "Celery", "quantity": 2, "unit": "stalks", "category": "produce"},
+      {"name": "Vegetable broth", "quantity": 4, "unit": "cups", "category": "pantry"},
+      {"name": "Cumin", "quantity": 1, "unit": "tsp", "category": "pantry"}
+    ],
+    "category": "dinner",
+    "estimatedCalories": 300,
+    "preparationTimeMinutes": 40,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian", "vegan", "glutenFree", "dairyFree"],
+    "imageAssetPath": "assets/images/meal_004.jpg",
+    "cookingInstructions": "1. Sauté chopped carrots and celery. 2. Add lentils, vegetable broth, and cumin. 3. Bring to a boil, then simmer for 30 minutes until lentils are tender.",
+    "defaultServings": 4
+  },
+  {
+    "id": "meal_005",
+    "name": "Scrambled Eggs on Toast",
+    "description": "A classic, quick, and protein-packed breakfast favorite.",
+    "ingredients": [
+      {"name": "Eggs", "quantity": 2, "unit": "pieces", "category": "dairy"},
+      {"name": "Whole wheat bread", "quantity": 2, "unit": "slices", "category": "bakery"},
+      {"name": "Milk", "quantity": 2, "unit": "tbsp", "category": "dairy", "isOptional": true}
+    ],
+    "category": "breakfast",
+    "estimatedCalories": 320,
+    "preparationTimeMinutes": 10,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian"],
+    "imageAssetPath": "assets/images/meal_005.jpg",
+    "cookingInstructions": "1. Whisk eggs and milk in a bowl. 2. Pour into a non-stick pan over medium heat. 3. Stir gently until cooked to your liking. 4. Serve immediately on toasted bread.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_006",
+    "name": "Tuna Salad Sandwich",
+    "description": "A simple and satisfying lunch, perfect for a busy day.",
+    "ingredients": [
+      {"name": "Canned tuna", "quantity": 1, "unit": "can", "category": "pantry"},
+      {"name": "Mayonnaise", "quantity": 2, "unit": "tbsp", "category": "pantry"},
+      {"name": "Celery", "quantity": 1, "unit": "stalk", "category": "produce", "isOptional": true},
+      {"name": "Bread", "quantity": 2, "unit": "slices", "category": "bakery"}
+    ],
+    "category": "lunch",
+    "estimatedCalories": 400,
+    "preparationTimeMinutes": 10,
+    "difficulty": "easy",
+    "dietaryTags": [],
+    "imageAssetPath": "assets/images/meal_006.jpg",
+    "cookingInstructions": "1. Drain tuna and place in a bowl. 2. Add mayonnaise and chopped celery, then mix well. 3. Spread tuna salad on one slice of bread and top with the other.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_007",
+    "name": "Chicken Stir-fry",
+    "description": "A quick, colorful, and delicious weeknight dinner with tender chicken and crisp vegetables.",
+    "ingredients": [
+      {"name": "Chicken breast", "quantity": 1, "unit": "piece", "category": "meat"},
+      {"name": "Broccoli florets", "quantity": 1, "unit": "cup", "category": "produce"},
+      {"name": "Bell pepper", "quantity": 1, "unit": "piece", "category": "produce"},
+      {"name": "Soy sauce", "quantity": 2, "unit": "tbsp", "category": "pantry"},
+      {"name": "Rice", "quantity": 1, "unit": "cup", "category": "pantry"}
+    ],
+    "category": "dinner",
+    "estimatedCalories": 450,
+    "preparationTimeMinutes": 25,
+    "difficulty": "medium",
+    "dietaryTags": ["dairyFree"],
+    "imageAssetPath": "assets/images/meal_007.jpg",
+    "cookingInstructions": "1. Cook rice. 2. Slice chicken and stir-fry until golden. 3. Add vegetables and cook until tender-crisp. 4. Add soy sauce, stir to combine, and serve over rice.",
+    "defaultServings": 2
+  },
+  {
+    "id": "meal_008",
+    "name": "Fluffy Pancakes",
+    "description": "Classic homemade pancakes, perfect for a weekend breakfast.",
+    "ingredients": [
+      {"name": "All-purpose flour", "quantity": 1, "unit": "cup", "category": "pantry"},
+      {"name": "Milk", "quantity": 1, "unit": "cup", "category": "dairy"},
+      {"name": "Egg", "quantity": 1, "unit": "piece", "category": "dairy"},
+      {"name": "Baking powder", "quantity": 2, "unit": "tsp", "category": "pantry"}
+    ],
+    "category": "breakfast",
+    "estimatedCalories": 380,
+    "preparationTimeMinutes": 20,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian"],
+    "imageAssetPath": "assets/images/meal_008.jpg",
+    "cookingInstructions": "1. Mix dry ingredients. 2. Whisk wet ingredients separately. 3. Combine wet and dry, but don't overmix. 4. Pour batter onto a hot griddle and cook until golden brown on both sides.",
+    "defaultServings": 2
+  },
+  {
+    "id": "meal_009",
+    "name": "Greek Yogurt Parfait",
+    "description": "A healthy and elegant breakfast or snack, layered with yogurt, berries, and granola.",
+    "ingredients": [
+      {"name": "Greek yogurt", "quantity": 1, "unit": "cup", "category": "dairy"},
+      {"name": "Mixed berries", "quantity": 0.5, "unit": "cups", "category": "produce"},
+      {"name": "Granola", "quantity": 0.25, "unit": "cups", "category": "pantry"}
+    ],
+    "category": "breakfast",
+    "estimatedCalories": 250,
+    "preparationTimeMinutes": 5,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian", "glutenFree"],
+    "imageAssetPath": "assets/images/meal_009.jpg",
+    "cookingInstructions": "1. Layer Greek yogurt, berries, and granola in a glass. 2. Repeat layers. 3. Serve immediately.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_010",
+    "name": "Chicken Caesar Wrap",
+    "description": "A classic Caesar salad with grilled chicken, all wrapped up in a soft tortilla.",
+    "ingredients": [
+      {"name": "Chicken breast", "quantity": 1, "unit": "piece", "category": "meat"},
+      {"name": "Romaine lettuce", "quantity": 1, "unit": "cup", "category": "produce"},
+      {"name": "Caesar dressing", "quantity": 2, "unit": "tbsp", "category": "pantry"},
+      {"name": "Flour tortilla", "quantity": 1, "unit": "large", "category": "bakery"}
+    ],
+    "category": "lunch",
+    "estimatedCalories": 480,
+    "preparationTimeMinutes": 15,
+    "difficulty": "easy",
+    "dietaryTags": [],
+    "imageAssetPath": "assets/images/meal_010.jpg",
+    "cookingInstructions": "1. Grill and slice chicken. 2. Toss lettuce with dressing. 3. Place chicken and salad in the tortilla and wrap tightly.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_011",
+    "name": "Black Bean Quesadilla",
+    "description": "A cheesy and satisfying vegetarian quesadilla filled with black beans and spices.",
+    "ingredients": [
+      {"name": "Flour tortilla", "quantity": 1, "unit": "large", "category": "bakery"},
+      {"name": "Canned black beans", "quantity": 0.5, "unit": "cups", "category": "pantry"},
+      {"name": "Shredded cheddar cheese", "quantity": 0.5, "unit": "cups", "category": "dairy"},
+      {"name": "Cumin", "quantity": 0.5, "unit": "tsp", "category": "pantry"}
+    ],
+    "category": "lunch",
+    "estimatedCalories": 450,
+    "preparationTimeMinutes": 10,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian"],
+    "imageAssetPath": "assets/images/meal_011.jpg",
+    "cookingInstructions": "1. Mash black beans with cumin. 2. Spread beans on one half of a tortilla, top with cheese. 3. Fold tortilla and cook in a pan until golden and cheese is melted.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_012",
+    "name": "Baked Salmon with Asparagus",
+    "description": "A simple, elegant, and healthy dinner featuring flaky salmon and tender asparagus.",
+    "ingredients": [
+      {"name": "Salmon fillet", "quantity": 1, "unit": "piece", "category": "meat"},
+      {"name": "Asparagus", "quantity": 1, "unit": "bunch", "category": "produce"},
+      {"name": "Lemon", "quantity": 1, "unit": "piece", "category": "produce"},
+      {"name": "Olive oil", "quantity": 1, "unit": "tbsp", "category": "pantry"}
+    ],
+    "category": "dinner",
+    "estimatedCalories": 550,
+    "preparationTimeMinutes": 25,
+    "difficulty": "medium",
+    "dietaryTags": ["glutenFree", "lowCarb"],
+    "imageAssetPath": "assets/images/meal_012.jpg",
+    "cookingInstructions": "1. Preheat oven to 400°F (200°C). 2. Place salmon and asparagus on a baking sheet. 3. Drizzle with olive oil, season, and top with lemon slices. 4. Bake for 15-20 minutes.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_013",
+    "name": "Beef Tacos",
+    "description": "Classic ground beef tacos, perfect for a fun and customizable family dinner.",
+    "ingredients": [
+      {"name": "Ground beef", "quantity": 1, "unit": "lb", "category": "meat"},
+      {"name": "Taco shells", "quantity": 6, "unit": "pieces", "category": "pantry"},
+      {"name": "Taco seasoning", "quantity": 1, "unit": "packet", "category": "pantry"},
+      {"name": "Lettuce", "quantity": 1, "unit": "cup", "category": "produce"}
+    ],
+    "category": "dinner",
+    "estimatedCalories": 500,
+    "preparationTimeMinutes": 30,
+    "difficulty": "medium",
+    "dietaryTags": [],
+    "imageAssetPath": "assets/images/meal_013.jpg",
+    "cookingInstructions": "1. Brown ground beef, drain fat. 2. Stir in taco seasoning and water. 3. Simmer for 5 minutes. 4. Serve in taco shells with your favorite toppings.",
+    "defaultServings": 3
+  },
+  {
+    "id": "meal_014",
+    "name": "Apple Slices with Peanut Butter",
+    "description": "A simple, classic snack that's both healthy and satisfying.",
+    "ingredients": [
+      {"name": "Apple", "quantity": 1, "unit": "piece", "category": "produce"},
+      {"name": "Peanut butter", "quantity": 2, "unit": "tbsp", "category": "pantry"}
+    ],
+    "category": "snack",
+    "estimatedCalories": 250,
+    "preparationTimeMinutes": 5,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian", "vegan", "glutenFree", "dairyFree"],
+    "imageAssetPath": "assets/images/meal_014.jpg",
+    "cookingInstructions": "1. Slice apple. 2. Serve with a side of peanut butter for dipping.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_015",
+    "name": "Handful of Almonds",
+    "description": "A convenient and nutritious snack, rich in healthy fats and protein.",
+    "ingredients": [
+      {"name": "Raw almonds", "quantity": 0.25, "unit": "cups", "category": "pantry"}
+    ],
+    "category": "snack",
+    "estimatedCalories": 180,
+    "preparationTimeMinutes": 1,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian", "vegan", "glutenFree", "dairyFree", "lowCarb"],
+    "imageAssetPath": "assets/images/meal_015.jpg",
+    "cookingInstructions": "1. Grab a handful of almonds. 2. Enjoy.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_016",
+    "name": "Veggie Omelette",
+    "description": "A fluffy omelette packed with fresh vegetables.",
+    "ingredients": [
+      {"name": "Eggs", "quantity": 2, "unit": "pieces", "category": "dairy"},
+      {"name": "Spinach", "quantity": 0.5, "unit": "cups", "category": "produce"},
+      {"name": "Mushrooms", "quantity": 0.25, "unit": "cups", "category": "produce"},
+      {"name": "Feta cheese", "quantity": 2, "unit": "tbsp", "category": "dairy", "isOptional": true}
+    ],
+    "category": "breakfast",
+    "estimatedCalories": 300,
+    "preparationTimeMinutes": 15,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian", "glutenFree"],
+    "imageAssetPath": "assets/images/meal_016.jpg",
+    "cookingInstructions": "1. Sauté vegetables in a pan. 2. Whisk eggs and pour over vegetables. 3. Cook until set, then fold in half. Top with feta if desired.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_017",
+    "name": "Green Smoothie",
+    "description": "A vibrant and nutrient-dense smoothie to kickstart your day.",
+    "ingredients": [
+      {"name": "Spinach", "quantity": 1, "unit": "cup", "category": "produce"},
+      {"name": "Banana", "quantity": 1, "unit": "piece", "category": "produce"},
+      {"name": "Almond milk", "quantity": 1, "unit": "cup", "category": "dairy"},
+      {"name": "Protein powder", "quantity": 1, "unit": "scoop", "category": "pantry", "isOptional": true}
+    ],
+    "category": "breakfast",
+    "estimatedCalories": 250,
+    "preparationTimeMinutes": 5,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian", "vegan", "dairyFree"],
+    "imageAssetPath": "assets/images/meal_017.jpg",
+    "cookingInstructions": "1. Combine all ingredients in a blender. 2. Blend until smooth.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_018",
+    "name": "Tomato Soup",
+    "description": "A creamy and comforting classic tomato soup.",
+    "ingredients": [
+      {"name": "Canned tomatoes", "quantity": 1, "unit": "can", "category": "pantry"},
+      {"name": "Vegetable broth", "quantity": 2, "unit": "cups", "category": "pantry"},
+      {"name": "Garlic", "quantity": 1, "unit": "clove", "category": "produce"},
+      {"name": "Basil", "quantity": 0.25, "unit": "cups", "category": "produce"}
+    ],
+    "category": "lunch",
+    "estimatedCalories": 200,
+    "preparationTimeMinutes": 25,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian", "vegan"],
+    "imageAssetPath": "assets/images/meal_018.jpg",
+    "cookingInstructions": "1. Sauté garlic. 2. Add tomatoes and broth. 3. Simmer for 20 minutes. 4. Blend until smooth and stir in fresh basil.",
+    "defaultServings": 2
+  },
+  {
+    "id": "meal_019",
+    "name": "BLT Sandwich",
+    "description": "The iconic sandwich with crispy bacon, fresh lettuce, and ripe tomato.",
+    "ingredients": [
+      {"name": "Bacon", "quantity": 4, "unit": "slices", "category": "meat"},
+      {"name": "Lettuce", "quantity": 2, "unit": "leaves", "category": "produce"},
+      {"name": "Tomato", "quantity": 2, "unit": "slices", "category": "produce"},
+      {"name": "Bread", "quantity": 2, "unit": "slices", "category": "bakery"}
+    ],
+    "category": "lunch",
+    "estimatedCalories": 420,
+    "preparationTimeMinutes": 15,
+    "difficulty": "easy",
+    "dietaryTags": [],
+    "imageAssetPath": "assets/images/meal_019.jpg",
+    "cookingInstructions": "1. Cook bacon until crispy. 2. Toast bread. 3. Assemble sandwich with bacon, lettuce, and tomato.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_020",
+    "name": "Pork Chops with Roasted Veggies",
+    "description": "Juicy pork chops served with a medley of colorful roasted vegetables.",
+    "ingredients": [
+      {"name": "Pork chop", "quantity": 1, "unit": "piece", "category": "meat"},
+      {"name": "Broccoli", "quantity": 1, "unit": "cup", "category": "produce"},
+      {"name": "Carrots", "quantity": 1, "unit": "cup", "category": "produce"},
+      {"name": "Olive oil", "quantity": 1, "unit": "tbsp", "category": "pantry"}
+    ],
+    "category": "dinner",
+    "estimatedCalories": 650,
+    "preparationTimeMinutes": 40,
+    "difficulty": "medium",
+    "dietaryTags": ["glutenFree"],
+    "imageAssetPath": "assets/images/meal_020.jpg",
+    "cookingInstructions": "1. Season pork chops. 2. Toss vegetables with olive oil. 3. Roast pork and vegetables at 400°F (200°C) for 25-30 minutes.",
+    "defaultServings": 1
+  },
+  {
+    "id": "meal_021",
+    "name": "Vegetable Curry",
+    "description": "A flavorful and aromatic curry with a variety of fresh vegetables.",
+    "ingredients": [
+      {"name": "Coconut milk", "quantity": 1, "unit": "can", "category": "pantry"},
+      {"name": "Chickpeas", "quantity": 1, "unit": "can", "category": "pantry"},
+      {"name": "Sweet potato", "quantity": 1, "unit": "piece", "category": "produce"},
+      {"name": "Spinach", "quantity": 2, "unit": "cups", "category": "produce"},
+      {"name": "Curry powder", "quantity": 2, "unit": "tbsp", "category": "pantry"}
+    ],
+    "category": "dinner",
+    "estimatedCalories": 480,
+    "preparationTimeMinutes": 35,
+    "difficulty": "medium",
+    "dietaryTags": ["vegetarian", "vegan", "glutenFree"],
+    "imageAssetPath": "assets/images/meal_021.jpg",
+    "cookingInstructions": "1. Sauté cubed sweet potato. 2. Add coconut milk, chickpeas, and curry powder. 3. Simmer until sweet potato is tender. 4. Stir in spinach until wilted.",
+    "defaultServings": 2
+  },
+  {
+    "id": "meal_022",
+    "name": "Rice Cake with Avocado",
+    "description": "A light, crunchy, and healthy snack with creamy avocado.",
+    "ingredients": [
+      {"name": "Rice cakes", "quantity": 2, "unit": "pieces", "category": "pantry"},
+      {"name": "Avocado", "quantity": 0.5, "unit": "piece", "category": "produce"}
+    ],
+    "category": "snack",
+    "estimatedCalories": 150,
+    "preparationTimeMinutes": 5,
+    "difficulty": "easy",
+    "dietaryTags": ["vegetarian", "vegan", "glutenFree"],
+    "imageAssetPath": "assets/images/meal_022.jpg",
+    "cookingInstructions": "1. Mash avocado. 2. Spread on rice cakes. 3. Season with salt and pepper if desired.",
+    "defaultServings": 1
   }
 ]

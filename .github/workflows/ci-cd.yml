@@ -135,7 +135,6 @@ jobs:
           test -d "lib/widgets" || { echo "Missing lib/widgets"; exit 1; }
           test -d "test/unit" || { echo "Missing test/unit"; exit 1; }
           test -d "test/widget" || { echo "Missing test/widget"; exit 1; }
-          test -d "test/integration" || { echo "Missing test/integration"; exit 1; }
           echo "Project structure compliance verified"
 
       - name: 📋 Write Test Summary

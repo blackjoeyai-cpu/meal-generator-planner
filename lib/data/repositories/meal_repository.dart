@@ -1,3 +1,4 @@
+import 'package:meal_generator_planner/data/models/enums.dart';
 import 'package:meal_generator_planner/data/models/meal.dart';
 
 /// Abstract interface for meal data operations
@@ -6,16 +7,13 @@ abstract class MealRepository {
   Future<List<Meal>> getAllMeals();
 
   /// Get meals by category
-  Future<List<Meal>> getMealsByCategory(String category);
+  Future<List<Meal>> getMealsByCategory(MealCategory category);
 
   /// Get meal by ID
   Future<Meal?> getMealById(String id);
 
-  /// Add a new meal
-  Future<void> addMeal(Meal meal);
-
-  /// Update an existing meal
-  Future<void> updateMeal(Meal meal);
+  /// Save a meal (creates if new, updates if exists)
+  Future<void> saveMeal(Meal meal);
 
   /// Delete a meal
   Future<void> deleteMeal(String id);

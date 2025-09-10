@@ -2,30 +2,21 @@ import 'package:meal_generator_planner/data/models/meal_plan.dart';
 
 /// Abstract interface for meal plan data operations
 abstract class MealPlanRepository {
-  /// Get all meal plans
-  Future<List<MealPlan>> getAllMealPlans();
+  /// Get a meal plan by its ID
+  Future<MealPlan?> getMealPlanById(String id);
 
-  /// Get meal plan by date
-  Future<MealPlan?> getMealPlanByDate(DateTime date);
+  /// Get the currently active meal plan
+  Future<MealPlan?> getCurrentMealPlan();
 
-  /// Get meal plans for a date range
-  Future<List<MealPlan>> getMealPlansInRange(
-    DateTime startDate,
-    DateTime endDate,
-  );
+  /// Get all non-active meal plans
+  Future<List<MealPlan>> getMealPlanHistory();
 
-  /// Add a new meal plan
-  Future<void> addMealPlan(MealPlan mealPlan);
+  /// Save a meal plan (creates if new, updates if exists)
+  Future<void> saveMealPlan(MealPlan plan);
 
-  /// Update an existing meal plan
-  Future<void> updateMealPlan(MealPlan mealPlan);
+  /// Set a meal plan as the active one
+  Future<void> setActiveMealPlan(String id);
 
-  /// Delete a meal plan
+  /// Delete a meal plan by its ID
   Future<void> deleteMealPlan(String id);
-
-  /// Get meal plans for current week
-  Future<List<MealPlan>> getCurrentWeekMealPlans();
-
-  /// Check if meal plan exists for date
-  Future<bool> hasMealPlanForDate(DateTime date);
 }
