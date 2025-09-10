@@ -2,12 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:meal_generator_planner/core/constants/app_constants.dart';
-import 'package:meal_generator_planner/core/testing/test_setup.dart';
 import 'package:meal_generator_planner/data/models/meal.dart';
 import 'package:meal_generator_planner/data/models/meal_plan.dart';
 import 'package:meal_generator_planner/main.dart' as app;
 import 'package:meal_generator_planner/features/meal_plan/presentation/widgets/weekly_calendar_grid.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../test/helpers/test_setup.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

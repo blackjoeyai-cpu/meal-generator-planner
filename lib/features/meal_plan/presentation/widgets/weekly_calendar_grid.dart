@@ -35,7 +35,7 @@ class WeeklyCalendarGrid extends StatelessWidget {
           final day = mealPlan.weekStartDate.add(Duration(days: index));
           return DateFormat('E\ndd').format(day);
         }),
-    ).toList();
+    );
 
     return TableRow(
       children: headers.map((header) {
@@ -60,7 +60,7 @@ class WeeklyCalendarGrid extends StatelessWidget {
           verticalAlignment: TableCellVerticalAlignment.middle,
           child: Center(child: Text(mealType, style: const TextStyle(fontWeight: FontWeight.bold))),
         ),
-        ...meals.map((meal) => MealCard(meal: meal)).toList(),
+        ...meals.map((meal) => MealCard(meal: meal)),
       ],
     );
   }
@@ -79,7 +79,7 @@ class WeeklyCalendarGrid extends StatelessWidget {
           return Column(
             children: day.value.snacks.map((snack) => MealCard(meal: snack)).toList(),
           );
-        }).toList(),
+        }),
       ],
     );
   }

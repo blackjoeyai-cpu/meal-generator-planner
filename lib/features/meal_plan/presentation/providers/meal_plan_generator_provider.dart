@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:meal_generator_planner/data/models/meal_plan.dart';
 import 'package:meal_generator_planner/data/repositories/repository_providers.dart';

@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meal_generator_planner/core/testing/test_setup.dart';
 import 'package:meal_generator_planner/data/repositories/meal_plan_repository.dart';
 import 'package:meal_generator_planner/data/repositories/meal_repository.dart';
 import 'package:meal_generator_planner/data/repositories/repository_providers.dart';
 import 'package:meal_generator_planner/main.dart';
 import 'package:mockito/mockito.dart';
+
+import 'helpers/test_setup.dart';
 
 class MockMealRepository extends Mock implements MealRepository {}
 

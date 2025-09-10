@@ -1,19 +1,15 @@
-import 'package:fake_async/fake_async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meal_generator_planner/core/testing/test_setup.dart';
-import 'package:meal_generator_planner/data/models/daily_meals.dart';
 import 'package:meal_generator_planner/data/models/enums.dart';
 import 'package:meal_generator_planner/data/models/meal.dart';
-import 'package:meal_generator_planner/data/models/meal_plan.dart';
 import 'package:meal_generator_planner/data/repositories/meal_plan_repository.dart';
-import 'package:meal_generator_planner/data/repositories/meal_repository.dart';
 import 'package:meal_generator_planner/data/repositories/repository_providers.dart';
 import 'package:meal_generator_planner/features/home/presentation/pages/home_page.dart';
 import 'package:meal_generator_planner/features/meal_plan/presentation/widgets/weekly_calendar_grid.dart';
 import 'package:mockito/mockito.dart';
 
+import '../helpers/test_setup.dart';
 import '../unit/meal_generation_service_test.mocks.dart';
 
 class MockMealPlanRepository extends Mock implements MealPlanRepository {}
