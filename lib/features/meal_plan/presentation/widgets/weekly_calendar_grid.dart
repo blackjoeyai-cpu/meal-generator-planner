@@ -31,10 +31,10 @@ class WeeklyCalendarGrid extends StatelessWidget {
 
   TableRow _buildHeaderRow() {
     final headers = [''].followedBy(
-        List.generate(7, (index) {
-          final day = mealPlan.weekStartDate.add(Duration(days: index));
-          return DateFormat('E\ndd').format(day);
-        }),
+      List.generate(7, (index) {
+        final day = mealPlan.weekStartDate.add(Duration(days: index));
+        return DateFormat('E\ndd').format(day);
+      }),
     );
 
     return TableRow(
@@ -58,7 +58,12 @@ class WeeklyCalendarGrid extends StatelessWidget {
       children: [
         TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
-          child: Center(child: Text(mealType, style: const TextStyle(fontWeight: FontWeight.bold))),
+          child: Center(
+            child: Text(
+              mealType,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
         ),
         ...meals.map((meal) => MealCard(meal: meal)),
       ],
@@ -70,14 +75,18 @@ class WeeklyCalendarGrid extends StatelessWidget {
       children: [
         const TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
-          child: Center(child: Text('S', style: TextStyle(fontWeight: FontWeight.bold))),
+          child: Center(
+            child: Text('S', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
         ),
         ...sortedDays.map((day) {
           if (day.value.snacks.isEmpty) {
             return const SizedBox.shrink();
           }
           return Column(
-            children: day.value.snacks.map((snack) => MealCard(meal: snack)).toList(),
+            children: day.value.snacks
+                .map((snack) => MealCard(meal: snack))
+                .toList(),
           );
         }),
       ],

@@ -33,7 +33,6 @@ void main() async {
   // await Hive.openBox(AppConstants.shoppingListsBoxName);
   // await Hive.openBox(AppConstants.favoritesBoxName);
 
-
   runApp(const ProviderScope(child: MealGeneratorApp()));
 }
 

@@ -5,7 +5,9 @@ import 'package:meal_generator_planner/features/meal_plan/domain/services/meal_g
 
 part 'meal_plan_generator_provider.g.dart';
 
-final mealGenerationServiceProvider = FutureProvider<MealGenerationService>((ref) async {
+final mealGenerationServiceProvider = FutureProvider<MealGenerationService>((
+  ref,
+) async {
   final mealRepository = await ref.watch(mealRepositoryProvider.future);
   return MealGenerationService(mealRepository);
 });
@@ -20,7 +22,9 @@ class MealPlanGenerator extends _$MealPlanGenerator {
 
   Future<void> generateWeeklyPlan(MealPlanGenerationRequest request) async {
     state = const AsyncValue.loading();
-    final generationService = await ref.read(mealGenerationServiceProvider.future);
+    final generationService = await ref.read(
+      mealGenerationServiceProvider.future,
+    );
     state = await AsyncValue.guard(() async {
       return await generationService.generatePlan(request);
     });

@@ -12,10 +12,11 @@ void main() {
         description: 'Test description',
         ingredients: [
           Ingredient(
-              name: 'ingredient1',
-              quantity: 1,
-              unit: 'cup',
-              category: FoodCategory.pantry)
+            name: 'ingredient1',
+            quantity: 1,
+            unit: 'cup',
+            category: FoodCategory.pantry,
+          ),
         ],
         category: MealCategory.breakfast,
         estimatedCalories: 100,

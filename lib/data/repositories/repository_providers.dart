@@ -8,6 +8,8 @@ final mealRepositoryProvider = FutureProvider<MealRepository>((ref) async {
   return await HiveMealRepository.create();
 });
 
-final mealPlanRepositoryProvider = FutureProvider<MealPlanRepository>((ref) async {
+final mealPlanRepositoryProvider = FutureProvider<MealPlanRepository>((
+  ref,
+) async {
   return await HiveMealPlanRepository.create();
 });

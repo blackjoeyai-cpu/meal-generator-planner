@@ -37,8 +37,8 @@ void main() {
       category: i % 4 == 0
           ? MealCategory.breakfast
           : (i % 4 == 1
-              ? MealCategory.lunch
-              : (i % 4 == 2 ? MealCategory.dinner : MealCategory.snack)),
+                ? MealCategory.lunch
+                : (i % 4 == 2 ? MealCategory.dinner : MealCategory.snack)),
       estimatedCalories: 300 + i * 10,
       preparationTimeMinutes: 15 + i,
       difficulty: DifficultyLevel.easy,
@@ -53,16 +53,20 @@ void main() {
   Widget createWidgetUnderTest() {
     return ProviderScope(
       overrides: [
-        mealRepositoryProvider.overrideWith((ref) => Future.value(mockMealRepository)),
-        mealPlanRepositoryProvider
-            .overrideWith((ref) => Future.value(mockMealPlanRepository)),
+        mealRepositoryProvider.overrideWith(
+          (ref) => Future.value(mockMealRepository),
+        ),
+        mealPlanRepositoryProvider.overrideWith(
+          (ref) => Future.value(mockMealPlanRepository),
+        ),
       ],
       child: const MaterialApp(home: HomePage()),
     );
   }
 
-  testWidgets('should show generate button on home screen initially',
-      (WidgetTester tester) async {
+  testWidgets('should show generate button on home screen initially', (
+    WidgetTester tester,
+  ) async {
     when(mockMealRepository.getAllMeals()).thenAnswer((_) async => dummyMeals);
 
     await tester.pumpWidget(createWidgetUnderTest());
@@ -73,8 +77,9 @@ void main() {
     expect(find.byType(WeeklyCalendarGrid), findsNothing);
   });
 
-  testWidgets('should display loading indicator during generation',
-      (WidgetTester tester) async {
+  testWidgets('should display loading indicator during generation', (
+    WidgetTester tester,
+  ) async {
     when(mockMealRepository.getAllMeals()).thenAnswer((_) async {
       // Add a delay to ensure the loading state is visible
       await Future.delayed(const Duration(milliseconds: 100));
@@ -92,8 +97,9 @@ void main() {
     await tester.pumpAndSettle(); // Complete the generation
   });
 
-  testWidgets('should show generated plan in calendar view',
-      (WidgetTester tester) async {
+  testWidgets('should show generated plan in calendar view', (
+    WidgetTester tester,
+  ) async {
     when(mockMealRepository.getAllMeals()).thenAnswer((_) async => dummyMeals);
 
     await tester.pumpWidget(createWidgetUnderTest());
@@ -106,10 +112,12 @@ void main() {
     expect(find.text('Generate Again'), findsOneWidget);
   });
 
-  testWidgets('should handle generation errors gracefully',
-      (WidgetTester tester) async {
-    when(mockMealRepository.getAllMeals())
-        .thenThrow(Exception('Failed to load meals'));
+  testWidgets('should handle generation errors gracefully', (
+    WidgetTester tester,
+  ) async {
+    when(
+      mockMealRepository.getAllMeals(),
+    ).thenThrow(Exception('Failed to load meals'));
 
     await tester.pumpWidget(createWidgetUnderTest());
     await tester.pumpAndSettle();

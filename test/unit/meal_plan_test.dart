@@ -58,9 +58,7 @@ void main() {
         generationParameters: generationRequest,
       );
 
-      final updatedMealPlan = originalMealPlan.copyWith(
-        isActive: true,
-      );
+      final updatedMealPlan = originalMealPlan.copyWith(isActive: true);
 
       expect(updatedMealPlan.id, 'plan_id');
       expect(updatedMealPlan.isActive, true);
@@ -78,7 +76,9 @@ void main() {
 
       final plan2 = MealPlan(
         id: 'same_id',
-        weekStartDate: testStartDate.add(const Duration(days: 7)), // different date
+        weekStartDate: testStartDate.add(
+          const Duration(days: 7),
+        ), // different date
         dailyMeals: {},
         generatedAt: now,
         generationParameters: generationRequest,

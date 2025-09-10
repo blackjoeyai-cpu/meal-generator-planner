@@ -12,14 +12,14 @@ String _$mealPlanGeneratorHash() => r'fd297584e1aa8c34302242ae762d9f3a181f11a4';
 @ProviderFor(MealPlanGenerator)
 final mealPlanGeneratorProvider =
     AutoDisposeAsyncNotifierProvider<MealPlanGenerator, MealPlan?>.internal(
-  MealPlanGenerator.new,
-  name: r'mealPlanGeneratorProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$mealPlanGeneratorHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      MealPlanGenerator.new,
+      name: r'mealPlanGeneratorProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$mealPlanGeneratorHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$MealPlanGenerator = AutoDisposeAsyncNotifier<MealPlan?>;
 // ignore_for_file: type=lint

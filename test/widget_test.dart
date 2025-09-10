@@ -30,10 +30,12 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          mealRepositoryProvider
-              .overrideWith((ref) => Future.value(mockMealRepository)),
-          mealPlanRepositoryProvider
-              .overrideWith((ref) => Future.value(mockMealPlanRepository)),
+          mealRepositoryProvider.overrideWith(
+            (ref) => Future.value(mockMealRepository),
+          ),
+          mealPlanRepositoryProvider.overrideWith(
+            (ref) => Future.value(mockMealPlanRepository),
+          ),
         ],
         child: const MealGeneratorApp(),
       ),

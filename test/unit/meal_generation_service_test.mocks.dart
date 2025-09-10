@@ -33,78 +33,69 @@ class MockMealRepository extends _i1.Mock implements _i2.MealRepository {
   }
 
   @override
-  _i3.Future<List<_i4.Meal>> getAllMeals() => (super.noSuchMethod(
-        Invocation.method(
-          #getAllMeals,
-          [],
-        ),
-        returnValue: _i3.Future<List<_i4.Meal>>.value(<_i4.Meal>[]),
-      ) as _i3.Future<List<_i4.Meal>>);
+  _i3.Future<List<_i4.Meal>> getAllMeals() =>
+      (super.noSuchMethod(
+            Invocation.method(#getAllMeals, []),
+            returnValue: _i3.Future<List<_i4.Meal>>.value(<_i4.Meal>[]),
+          )
+          as _i3.Future<List<_i4.Meal>>);
 
   @override
   _i3.Future<List<_i4.Meal>> getMealsByCategory(_i5.MealCategory? category) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #getMealsByCategory,
-          [category],
-        ),
-        returnValue: _i3.Future<List<_i4.Meal>>.value(<_i4.Meal>[]),
-      ) as _i3.Future<List<_i4.Meal>>);
+            Invocation.method(#getMealsByCategory, [category]),
+            returnValue: _i3.Future<List<_i4.Meal>>.value(<_i4.Meal>[]),
+          )
+          as _i3.Future<List<_i4.Meal>>);
 
   @override
-  _i3.Future<_i4.Meal?> getMealById(String? id) => (super.noSuchMethod(
-        Invocation.method(
-          #getMealById,
-          [id],
-        ),
-        returnValue: _i3.Future<_i4.Meal?>.value(),
-      ) as _i3.Future<_i4.Meal?>);
+  _i3.Future<_i4.Meal?> getMealById(String? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#getMealById, [id]),
+            returnValue: _i3.Future<_i4.Meal?>.value(),
+          )
+          as _i3.Future<_i4.Meal?>);
 
   @override
-  _i3.Future<void> saveMeal(_i4.Meal? meal) => (super.noSuchMethod(
-        Invocation.method(
-          #saveMeal,
-          [meal],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+  _i3.Future<void> saveMeal(_i4.Meal? meal) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveMeal, [meal]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
-  _i3.Future<void> deleteMeal(String? id) => (super.noSuchMethod(
-        Invocation.method(
-          #deleteMeal,
-          [id],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+  _i3.Future<void> deleteMeal(String? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteMeal, [id]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
-  _i3.Future<List<_i4.Meal>> getFavoriteMeals() => (super.noSuchMethod(
-        Invocation.method(
-          #getFavoriteMeals,
-          [],
-        ),
-        returnValue: _i3.Future<List<_i4.Meal>>.value(<_i4.Meal>[]),
-      ) as _i3.Future<List<_i4.Meal>>);
+  _i3.Future<List<_i4.Meal>> getFavoriteMeals() =>
+      (super.noSuchMethod(
+            Invocation.method(#getFavoriteMeals, []),
+            returnValue: _i3.Future<List<_i4.Meal>>.value(<_i4.Meal>[]),
+          )
+          as _i3.Future<List<_i4.Meal>>);
 
   @override
-  _i3.Future<void> toggleMealFavorite(String? mealId) => (super.noSuchMethod(
-        Invocation.method(
-          #toggleMealFavorite,
-          [mealId],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+  _i3.Future<void> toggleMealFavorite(String? mealId) =>
+      (super.noSuchMethod(
+            Invocation.method(#toggleMealFavorite, [mealId]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
-  _i3.Future<List<_i4.Meal>> searchMeals(String? query) => (super.noSuchMethod(
-        Invocation.method(
-          #searchMeals,
-          [query],
-        ),
-        returnValue: _i3.Future<List<_i4.Meal>>.value(<_i4.Meal>[]),
-      ) as _i3.Future<List<_i4.Meal>>);
+  _i3.Future<List<_i4.Meal>> searchMeals(String? query) =>
+      (super.noSuchMethod(
+            Invocation.method(#searchMeals, [query]),
+            returnValue: _i3.Future<List<_i4.Meal>>.value(<_i4.Meal>[]),
+          )
+          as _i3.Future<List<_i4.Meal>>);
 }

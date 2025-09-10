@@ -31,7 +31,9 @@ class HomePage extends ConsumerWidget {
                 label: const Text('Generate Weekly Plan'),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 48, vertical: 24),
+                    horizontal: 48,
+                    vertical: 24,
+                  ),
                   textStyle: const TextStyle(fontSize: 20),
                 ),
               );
@@ -45,9 +47,7 @@ class HomePage extends ConsumerWidget {
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
-                  Expanded(
-                    child: WeeklyCalendarGrid(mealPlan: mealPlan),
-                  ),
+                  Expanded(child: WeeklyCalendarGrid(mealPlan: mealPlan)),
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -71,7 +71,7 @@ class HomePage extends ConsumerWidget {
                         child: const Text('Customize Plan'),
                       ),
                     ],
-                  )
+                  ),
                 ],
               );
             }
@@ -93,7 +93,7 @@ class HomePage extends ConsumerWidget {
                       .generateWeeklyPlan(request);
                 },
                 child: const Text('Try Again'),
-              )
+              ),
             ],
           ),
         ),

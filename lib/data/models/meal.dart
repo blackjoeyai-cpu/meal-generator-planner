@@ -98,7 +98,8 @@ class Meal extends HiveObject {
       ingredients: ingredients ?? this.ingredients,
       category: category ?? this.category,
       estimatedCalories: estimatedCalories ?? this.estimatedCalories,
-      preparationTimeMinutes: preparationTimeMinutes ?? this.preparationTimeMinutes,
+      preparationTimeMinutes:
+          preparationTimeMinutes ?? this.preparationTimeMinutes,
       difficulty: difficulty ?? this.difficulty,
       dietaryTags: dietaryTags ?? this.dietaryTags,
       imageAssetPath: imageAssetPath ?? this.imageAssetPath,

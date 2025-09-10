@@ -68,10 +68,14 @@ class HiveMealRepository implements MealRepository {
   Future<List<Meal>> searchMeals(String query) async {
     final lowerCaseQuery = query.toLowerCase();
     return _box.values
-        .where((meal) =>
-            meal.name.toLowerCase().contains(lowerCaseQuery) ||
-            meal.ingredients.any((ingredient) =>
-                ingredient.name.toLowerCase().contains(lowerCaseQuery)))
+        .where(
+          (meal) =>
+              meal.name.toLowerCase().contains(lowerCaseQuery) ||
+              meal.ingredients.any(
+                (ingredient) =>
+                    ingredient.name.toLowerCase().contains(lowerCaseQuery),
+              ),
+        )
         .toList();
   }
 
@@ -92,15 +96,20 @@ class HiveMealRepository implements MealRepository {
       ingredients: (json['ingredients'] as List)
           .map((i) => _ingredientFromJson(i))
           .toList(),
-      category: MealCategory.values
-          .firstWhere((e) => e.toString() == 'MealCategory.${json['category']}'),
+      category: MealCategory.values.firstWhere(
+        (e) => e.toString() == 'MealCategory.${json['category']}',
+      ),
       estimatedCalories: json['estimatedCalories'],
       preparationTimeMinutes: json['preparationTimeMinutes'],
       difficulty: DifficultyLevel.values.firstWhere(
-          (e) => e.toString() == 'DifficultyLevel.${json['difficulty']}'),
+        (e) => e.toString() == 'DifficultyLevel.${json['difficulty']}',
+      ),
       dietaryTags: (json['dietaryTags'] as List)
-          .map((t) => DietaryTag.values
-              .firstWhere((e) => e.toString() == 'DietaryTag.$t'))
+          .map(
+            (t) => DietaryTag.values.firstWhere(
+              (e) => e.toString() == 'DietaryTag.$t',
+            ),
+          )
           .toList(),
       imageAssetPath: json['imageAssetPath'],
       cookingInstructions: json['cookingInstructions'],
@@ -115,8 +124,9 @@ class HiveMealRepository implements MealRepository {
       name: json['name'],
       quantity: (json['quantity'] as num).toDouble(),
       unit: json['unit'],
-      category: FoodCategory.values
-          .firstWhere((e) => e.toString() == 'FoodCategory.${json['category']}'),
+      category: FoodCategory.values.firstWhere(
+        (e) => e.toString() == 'FoodCategory.${json['category']}',
+      ),
       isOptional: json['isOptional'] ?? false,
     );
   }

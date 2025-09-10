@@ -45,7 +45,8 @@ class MealGenerationService {
   }
 
   Future<List<Meal>> _loadFilteredMeals(
-      MealPlanGenerationRequest request) async {
+    MealPlanGenerationRequest request,
+  ) async {
     final allMeals = await _mealRepository.getAllMeals();
 
     // TODO: The PRD mentions filtering out meals from previousWeekMealIds.
@@ -60,8 +61,9 @@ class MealGenerationService {
 
       // Filter by excluded ingredients
       if (request.excludedIngredients.isNotEmpty &&
-          meal.ingredients.any((i) =>
-              request.excludedIngredients.contains(i.name.toLowerCase()))) {
+          meal.ingredients.any(
+            (i) => request.excludedIngredients.contains(i.name.toLowerCase()),
+          )) {
         return false;
       }
 
@@ -70,13 +72,24 @@ class MealGenerationService {
   }
 
   DailyMeals _generateDayMeals(
-      List<Meal> availableMeals, MealPlanGenerationRequest request) {
-    final breakfast =
-        _selectMealForCategory(MealCategory.breakfast, availableMeals, request);
-    final lunch =
-        _selectMealForCategory(MealCategory.lunch, availableMeals, request);
-    final dinner =
-        _selectMealForCategory(MealCategory.dinner, availableMeals, request);
+    List<Meal> availableMeals,
+    MealPlanGenerationRequest request,
+  ) {
+    final breakfast = _selectMealForCategory(
+      MealCategory.breakfast,
+      availableMeals,
+      request,
+    );
+    final lunch = _selectMealForCategory(
+      MealCategory.lunch,
+      availableMeals,
+      request,
+    );
+    final dinner = _selectMealForCategory(
+      MealCategory.dinner,
+      availableMeals,
+      request,
+    );
     final snacks = _selectSnacks(availableMeals, request);
 
     return DailyMeals(
@@ -87,17 +100,23 @@ class MealGenerationService {
     );
   }
 
-  Meal _selectMealForCategory(MealCategory category, List<Meal> availableMeals,
-      MealPlanGenerationRequest request) {
-    var selectableMeals =
-        availableMeals.where((m) => m.category == category).toList();
+  Meal _selectMealForCategory(
+    MealCategory category,
+    List<Meal> availableMeals,
+    MealPlanGenerationRequest request,
+  ) {
+    var selectableMeals = availableMeals
+        .where((m) => m.category == category)
+        .toList();
 
     // Handle pinned favorites
     final pinnedMealId = request.pinnedFavoriteIds.firstWhereOrNull(
-        (id) => selectableMeals.any((meal) => meal.id == id));
+      (id) => selectableMeals.any((meal) => meal.id == id),
+    );
     if (pinnedMealId != null) {
-      final pinnedMeal =
-          selectableMeals.firstWhere((meal) => meal.id == pinnedMealId);
+      final pinnedMeal = selectableMeals.firstWhere(
+        (meal) => meal.id == pinnedMealId,
+      );
       availableMeals.remove(pinnedMeal);
       return pinnedMeal;
     }
@@ -121,10 +140,13 @@ class MealGenerationService {
   }
 
   List<Meal> _selectSnacks(
-      List<Meal> availableMeals, MealPlanGenerationRequest request) {
+    List<Meal> availableMeals,
+    MealPlanGenerationRequest request,
+  ) {
     final snacks = <Meal>[];
-    final potentialSnacks =
-        availableMeals.where((m) => m.category == MealCategory.snack).toList();
+    final potentialSnacks = availableMeals
+        .where((m) => m.category == MealCategory.snack)
+        .toList();
 
     if (potentialSnacks.isEmpty) return [];
 

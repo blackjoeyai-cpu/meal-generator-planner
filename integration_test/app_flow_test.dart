@@ -22,9 +22,7 @@ void main() {
 
     testWidgets('Generate meal plan flow', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: app.MealGeneratorApp(),
-        ),
+        const ProviderScope(child: app.MealGeneratorApp()),
       );
       await tester.pumpAndSettle();
 
